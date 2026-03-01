@@ -1,0 +1,113 @@
+# nrfx UART configuration
+
+# Copyright (c) 2016 - 2018, Nordic Semiconductor ASA
+# SPDX-License-Identifier: Apache-2.0
+
+menuconfig UART_NRFX
+	bool "nRF UART nrfx drivers"
+	default y
+	select SERIAL_HAS_DRIVER
+	select SERIAL_SUPPORT_INTERRUPT
+	select SERIAL_SUPPORT_ASYNC
+	select PINCTRL
+	depends on DT_HAS_NORDIC_NRF_UART_ENABLED || DT_HAS_NORDIC_NRF_UARTE_ENABLED
+	help
+	  Enable support for nrfx UART drivers for nRF MCU series.
+	  Peripherals with the same instance ID cannot be used together,
+	  e.g. UART_0 and UARTE_0.
+
+if UART_NRFX
+
+config UART_NRFX_UART
+	def_bool y
+	depends on DT_HAS_NORDIC_NRF_UART_ENABLED
+
+config UART_NRFX_UARTE
+	def_bool y
+	depends on DT_HAS_NORDIC_NRF_UARTE_ENABLED
+
+config UART_NRFX_UARTE_LEGACY_SHIM
+	bool "Legacy UARTE shim"
+	depends on UART_NRFX_UARTE
+	depends on !SOC_SERIES_NRF54HX || RISCV
+	depends on !SOC_SERIES_NRF92X || RISCV
+	default y
+
+config UART_NRFX_UARTE_ENHANCED_RX
+	bool "Enhanced RX handling"
+	depends on UART_ASYNC_API
+	depends on UART_NRFX_UARTE_LEGACY_SHIM
+	default y if !(UART_0_NRF_HW_ASYNC || UART_1_NRF_HW_ASYNC || UART_2_NRF_HW_ASYNC)
+	help
+	  Enable RX handling mode which is switching buffers on timeout. This is an
+	  enhancement compared to other two modes (default and hardware assisted).
+	  Default mode could miscount bytes when interrupt was not handled on time
+	  and hardware assisted required TIMER peripheral instance and PPI channel
+	  for accurate byte counting.
+
+config UART_ASYNC_TX_CACHE_SIZE
+	int "TX cache buffer size"
+	depends on UART_ASYNC_API
+	depends on UART_NRFX_UARTE
+	default 8
+	help
+	  For UARTE, TX cache buffer is used when provided TX buffer is not located
+	  in RAM, because EasyDMA in UARTE peripherals can only transfer data
+	  from RAM.
+
+if HAS_HW_NRF_UART0 || HAS_HW_NRF_UARTE0
+nrfx_uart_num = 0
+rsource "Kconfig.nrfx_uart_instance"
+endif
+
+if HAS_HW_NRF_UARTE1
+nrfx_uart_num = 1
+rsource "Kconfig.nrfx_uart_instance"
+endif
+
+if HAS_HW_NRF_UARTE2
+nrfx_uart_num = 2
+rsource "Kconfig.nrfx_uart_instance"
+endif
+
+if HAS_HW_NRF_UARTE3
+nrfx_uart_num = 3
+rsource "Kconfig.nrfx_uart_instance"
+endif
+
+config NRFX_TIMER0
+	default y
+	depends on UART_0_NRF_HW_ASYNC_TIMER = 0 \
+		|| UART_1_NRF_HW_ASYNC_TIMER = 0 \
+		|| UART_2_NRF_HW_ASYNC_TIMER = 0 \
+		|| UART_3_NRF_HW_ASYNC_TIMER = 0
+
+config NRFX_TIMER1
+	default y
+	depends on UART_0_NRF_HW_ASYNC_TIMER = 1 \
+		|| UART_1_NRF_HW_ASYNC_TIMER = 1 \
+		|| UART_2_NRF_HW_ASYNC_TIMER = 1 \
+		|| UART_3_NRF_HW_ASYNC_TIMER = 1
+
+config NRFX_TIMER2
+	default y
+	depends on UART_0_NRF_HW_ASYNC_TIMER = 2 \
+		|| UART_1_NRF_HW_ASYNC_TIMER = 2 \
+		|| UART_2_NRF_HW_ASYNC_TIMER = 2 \
+		|| UART_3_NRF_HW_ASYNC_TIMER = 2
+
+config NRFX_TIMER3
+	default y
+	depends on UART_0_NRF_HW_ASYNC_TIMER = 3 \
+		|| UART_1_NRF_HW_ASYNC_TIMER = 3 \
+		|| UART_2_NRF_HW_ASYNC_TIMER = 3 \
+		|| UART_3_NRF_HW_ASYNC_TIMER = 3
+
+config NRFX_TIMER4
+	default y
+	depends on UART_0_NRF_HW_ASYNC_TIMER = 4 \
+		|| UART_1_NRF_HW_ASYNC_TIMER = 4 \
+		|| UART_2_NRF_HW_ASYNC_TIMER = 4 \
+		|| UART_3_NRF_HW_ASYNC_TIMER = 4
+
+endif # UART_NRFX

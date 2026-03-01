@@ -18,3 +18,44 @@
 #     artifact-name: corne_left_with_studio
 #
 ---
+remotes:
+  - name: zmkfirmware
+    url-base: https://github.com/zmkfirmware
+  - name: cornix-shield
+    url-base: https://github.com/hitsmaxft
+  - name: urob
+    url-base: https://github.com/urob
+    projects:
+  - name: zmk
+    remote: zmkfirmware
+    revision: main
+    import: app/west.yml
+  - name: zmk-keyboard-cornix
+    remote: cornix-shield
+    revision: main
+  - name: zmk-helpers
+    remote: urob
+    revision: main
+include:
+  # Use cornix with dongle
+  # - board: nice_nano
+  #   shield: cornix_dongle_adaptor cornix_dongle_eyelash dongle_display
+  #   snippet: studio-rpc-usb-uart
+  #   artifact-name: cornix_dongle
+
+  # - board: cornix_ph_left
+  #   # shield: cornix_indicator
+  #   artifact-name: cornix_left_for_dongle
+
+  # Use cornix without dongle
+  - board: cornix_left
+    # shield: cornix_indicator
+    artifact-name: cornix_left
+
+  - board: cornix_right
+    # shield: cornix_indicator
+    artifact-name: cornix_right
+
+  - board: cornix_right
+    shield: settings_reset
+    artifact-name: reset
