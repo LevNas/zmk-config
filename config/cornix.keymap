@@ -297,7 +297,7 @@
 
         cb_layer2_fz {
             bindings = <&mo 2>;
-            key-positions = <16 26>;
+            key-positions = <16 25>;
         };
 
         cb_layer2_jslash {
