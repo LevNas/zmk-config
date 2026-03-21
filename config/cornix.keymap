@@ -183,6 +183,12 @@
             key-positions = <9 8>;
         };
 
+        cb_kp_space {
+            bindings = <&kp SPACE>;
+            key-positions = <17 29>;
+            layers = <0 1>;
+        };
+
         my_combo_keypress_zenhan {
             bindings = <&my_macro_zenhan>;
             key-positions = <3 4>;
