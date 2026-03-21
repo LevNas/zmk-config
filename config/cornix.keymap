@@ -260,24 +260,29 @@
             key-positions = <19 20>;
         };
 
-        cb_kb_l-ctrl+l-alt {
-            bindings = <&none>;
-            key-positions = <13 16 15>;
+        cb_kb_l-ctrl_l-alt {
+            bindings = <&kp LA(LCTRL)>;
+            key-positions = <13 15 16>;
         };
 
-        cb_kb_r-ctrl+r-alt {
-            bindings = <&none>;
+        cb_kb_r-ctrl_r-alt {
+            bindings = <&kp RA(RCTRL)>;
             key-positions = <19 20 22>;
         };
 
-        cb_kb_l-ctrl+l-l-shift {
-            bindings = <&none>;
+        cb_kb_l-ctrl_l-shift {
+            bindings = <&kp LS(LCTRL)>;
             key-positions = <13 14 16>;
         };
 
-        cb_kb_r-ctrl+r-alt {
-            bindings = <&none>;
+        cb_kb_r-ctrl_r-shift {
+            bindings = <&kp RS(RCTRL)>;
             key-positions = <19 21 22>;
+        };
+
+        cb_kp_insert {
+            bindings = <&kp INS>;
+            key-positions = <19 9>;
         };
     };
 
