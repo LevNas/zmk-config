@@ -167,7 +167,7 @@
 
         cb_bs {
             bindings = <&kp K_BACK>;
-            key-positions = <8 9>;
+            key-positions = <9 19>;
         };
 
         my_combo_keypress_zenhan {
@@ -243,6 +243,11 @@
         cb_kp_r-alt {
             bindings = <&kp RIGHT_ALT>;
             key-positions = <19 20>;
+        };
+
+        cb_kp_del {
+            bindings = <&kp DEL>;
+            key-positions = <19 8>;
         };
     };
 
