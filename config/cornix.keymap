@@ -155,13 +155,13 @@
 
         cb_kp_tab {
             bindings = <&kp TAB>;
-            key-positions = <14 16>;
+            key-positions = <2 4>;
             layers = <0 1>;
         };
 
         cb_kp_enter {
             bindings = <&kp RET>;
-            key-positions = <21 19>;
+            key-positions = <21 6>;
             layers = <0 1>;
         };
 
@@ -217,22 +217,22 @@
 
         cb_kp_l-ctrl {
             bindings = <&kp LCTRL>;
-            key-positions = <13 14>;
+            key-positions = <13 16>;
         };
 
         cb_kp_r-ctrl {
             bindings = <&kp RCTRL>;
-            key-positions = <21 22>;
+            key-positions = <22 19>;
         };
 
         cb_kp_l-shift {
             bindings = <&kp LEFT_SHIFT>;
-            key-positions = <14 15>;
+            key-positions = <14 16>;
         };
 
         cb_kp_r-shift {
             bindings = <&kp RIGHT_SHIFT>;
-            key-positions = <21 20>;
+            key-positions = <21 19>;
         };
 
         cb_kp_l-alt {
