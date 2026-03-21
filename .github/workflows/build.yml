@@ -2,5 +2,91 @@ name: Build ZMK firmware
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
+  matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: set-matrix
+        run: |
+          matrix=$(python3 -c "
+          import yaml, json
+          with open('build.yaml') as f:
+              data = yaml.safe_load(f)
+          print(json.dumps({'include': data['include']}))
+          ")
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+
   build:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+    needs: matrix
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/zmkfirmware/zmk-build-arm:stable
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.matrix.outputs.matrix) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache west modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            modules/
+            zephyr/
+            zmk/
+            zmk-helpers/
+            zmk-keyboard-cornix/
+            .west/
+          key: west-${{ hashFiles('config/west.yml') }}
+
+      - name: West Init
+        run: west init -l config
+
+      - name: West Update
+        run: west update
+
+      - name: West Zephyr Export
+        run: west zephyr-export
+
+      - name: West Build
+        run: |
+          SHIELD_ARG=""
+          if [ -n "${{ matrix.shield }}" ]; then
+            SHIELD_ARG="-DSHIELD=${{ matrix.shield }}"
+          fi
+          SNIPPET_ARG=""
+          if [ -n "${{ matrix.snippet }}" ]; then
+            SNIPPET_ARG="-DSNIPPET=${{ matrix.snippet }}"
+          fi
+          west build -s zmk/app -b "${{ matrix.board }}" \
+            -- -DZMK_CONFIG="${GITHUB_WORKSPACE}/config" \
+            $SHIELD_ARG $SNIPPET_ARG
+
+      - name: Rename artifact
+        run: |
+          mkdir -p artifacts
+          if [ -f build/zephyr/zmk.uf2 ]; then
+            cp build/zephyr/zmk.uf2 "artifacts/${{ matrix.artifact-name }}.uf2"
+          fi
+          if [ -f build/zephyr/zmk.bin ]; then
+            cp build/zephyr/zmk.bin "artifacts/${{ matrix.artifact-name }}.bin"
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact-name }}
+          path: artifacts/
+
+  merge:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge artifacts
+        uses: actions/upload-artifact/merge@v4
+        with:
+          name: firmware
+          pattern: "*"
