@@ -128,6 +128,7 @@
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
             bindings = <&kp BSPC>, <&kp DEL>;
+
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
@@ -259,6 +260,25 @@
             key-positions = <19 20>;
         };
 
+        cb_kb_l-ctrl+l-alt {
+            bindings = <&none>;
+            key-positions = <13 16 15>;
+        };
+
+        cb_kb_r-ctrl+r-alt {
+            bindings = <&none>;
+            key-positions = <19 20 22>;
+        };
+
+        cb_kb_l-ctrl+l-l-shift {
+            bindings = <&none>;
+            key-positions = <13 14 16>;
+        };
+
+        cb_kb_r-ctrl+r-alt {
+            bindings = <&none>;
+            key-positions = <19 21 22>;
+        };
     };
 
     macros {
