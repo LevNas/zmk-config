@@ -1,12 +1,12 @@
 ---
 # Use cornix without dongle
 include:
-  - board: cornix_left
+  - board: cornix_left//zmk
     artifact-name: cornix_left
 
-  - board: cornix_right
+  - board: cornix_right//zmk
     artifact-name: cornix_right
 
-  - board: cornix_right
+  - board: cornix_right//zmk
     shield: settings_reset
     artifact-name: reset
