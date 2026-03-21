@@ -161,7 +161,7 @@
 
         cb_kp_enter {
             bindings = <&kp RET>;
-            key-positions = <21 6>;
+            key-positions = <8 9>;
             layers = <0 1>;
         };
 
