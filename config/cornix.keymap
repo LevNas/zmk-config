@@ -284,6 +284,26 @@
             bindings = <&kp INS>;
             key-positions = <19 9>;
         };
+
+        cb_layer3_cv {
+            bindings = <&mo 3>;
+            key-positions = <27 28>;
+        };
+
+        cb_layer3_mcomma {
+            bindings = <&mo 3>;
+            key-positions = <33 34>;
+        };
+
+        cb_layer2_fz {
+            bindings = <&mo 2>;
+            key-positions = <16 26>;
+        };
+
+        cb_layer2_jslash {
+            bindings = <&mo 2>;
+            key-positions = <19 36>;
+        };
     };
 
     macros {
