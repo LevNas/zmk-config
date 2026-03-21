@@ -166,7 +166,7 @@
         };
 
         cb_bs {
-            bindings = <&kp K_BACK>;
+            bindings = <&kp BACKSPACE>;
             key-positions = <9 8>;
         };
 
@@ -247,7 +247,7 @@
 
         cb_kp_del {
             bindings = <&kp DEL>;
-            key-positions = <8 7>;
+            key-positions = <9 19>;
         };
     };
 
