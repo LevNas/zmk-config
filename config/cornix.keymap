@@ -124,6 +124,13 @@
             quick-tap-ms = <200>;
         };
 
+        enter_bs: enter_bs {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp RET>, <&kp BSPC>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
         lt: layer_tap {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -162,6 +169,12 @@
         cb_kp_enter {
             bindings = <&kp RET>;
             key-positions = <18 32>;
+            layers = <0 1>;
+        };
+
+        cb_enter_bs {
+            bindings = <&enter_bs>;
+            key-positions = <8 9>;
             layers = <0 1>;
         };
 
