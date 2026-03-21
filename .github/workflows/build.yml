@@ -21,14 +21,22 @@ jobs:
   build:
     needs: matrix
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/zmkfirmware/zmk-build-arm:stable
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.matrix.outputs.matrix) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Install west and dependencies
+        run: |
+          pip3 install west
+
+      - name: Install Zephyr SDK
+        run: |
+          wget -q https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.9/zephyr-sdk-0.16.9_linux-x86_64_minimal.tar.xz
+          tar xf zephyr-sdk-0.16.9_linux-x86_64_minimal.tar.xz -C /opt
+          /opt/zephyr-sdk-0.16.9/setup.sh -t arm-zephyr-eabi -c
 
       - name: Cache west modules
         uses: actions/cache@v4
@@ -39,7 +47,6 @@ jobs:
             zmk/
             zmk-helpers/
             zmk-keyboard-cornix/
-            .west/
           key: west-${{ hashFiles('config/west.yml') }}
 
       - name: West Init
@@ -51,28 +58,27 @@ jobs:
       - name: West Zephyr Export
         run: west zephyr-export
 
+      - name: Install Zephyr Python dependencies
+        run: pip3 install -r zephyr/scripts/requirements.txt
+
       - name: West Build
         run: |
-          SHIELD_ARG=""
+          EXTRA_ARGS=""
           if [ -n "${{ matrix.shield }}" ]; then
-            SHIELD_ARG="-DSHIELD=${{ matrix.shield }}"
+            EXTRA_ARGS="$EXTRA_ARGS -DSHIELD=\"${{ matrix.shield }}\""
           fi
-          SNIPPET_ARG=""
           if [ -n "${{ matrix.snippet }}" ]; then
-            SNIPPET_ARG="-DSNIPPET=${{ matrix.snippet }}"
+            EXTRA_ARGS="$EXTRA_ARGS -DSNIPPET=\"${{ matrix.snippet }}\""
           fi
           west build -s zmk/app -b "${{ matrix.board }}" \
             -- -DZMK_CONFIG="${GITHUB_WORKSPACE}/config" \
-            $SHIELD_ARG $SNIPPET_ARG
+            $EXTRA_ARGS
 
-      - name: Rename artifact
+      - name: Prepare artifact
         run: |
           mkdir -p artifacts
           if [ -f build/zephyr/zmk.uf2 ]; then
             cp build/zephyr/zmk.uf2 "artifacts/${{ matrix.artifact-name }}.uf2"
-          fi
-          if [ -f build/zephyr/zmk.bin ]; then
-            cp build/zephyr/zmk.bin "artifacts/${{ matrix.artifact-name }}.bin"
           fi
 
       - name: Upload artifact
