@@ -124,10 +124,10 @@
             quick-tap-ms = <200>;
         };
 
-        enter_bs: enter_bs {
+        bs_del: bs_del {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&kp RET>, <&kp BSPC>;
+            bindings = <&kp BSPC>, <&kp DEL>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
@@ -172,15 +172,10 @@
             layers = <0 1>;
         };
 
-        cb_enter_bs {
-            bindings = <&enter_bs>;
+        cb_bs_del {
+            bindings = <&bs_del>;
             key-positions = <8 9>;
             layers = <0 1>;
-        };
-
-        cb_bs {
-            bindings = <&kp BACKSPACE>;
-            key-positions = <9 8>;
         };
 
         cb_kp_space {
@@ -264,10 +259,6 @@
             key-positions = <19 20>;
         };
 
-        cb_kp_del {
-            bindings = <&kp DEL>;
-            key-positions = <9 19>;
-        };
     };
 
     macros {
