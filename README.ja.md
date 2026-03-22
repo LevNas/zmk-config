@@ -8,7 +8,7 @@
 
 ![Cornix LP Keymap](docs/keymap.svg)
 
-コンボキーの一覧は [コンボリファレンス](docs/combos.md)、ビヘイビア・マクロ・ファームウェア設定の詳細は [設定リファレンス](docs/configuration.md) を参照してください。
+コンボキーの一覧は [コンボリファレンス](docs/combos.ja.md)、ビヘイビア・マクロ・ファームウェア設定の詳細は [設定リファレンス](docs/configuration.ja.md) を参照してください。
 
 ## ビルド
 
@@ -23,7 +23,7 @@ GitHubにpushすると自動でGitHub Actionsがビルドを実行します。
 
 ## カスタマイズ
 
-このリポジトリをベースに自分のキーマップを作りたい場合は [フォークガイド](docs/fork-guide.md) を参照してください。
+このリポジトリをベースに自分のキーマップを作りたい場合は [フォークガイド](docs/fork-guide.ja.md) を参照してください。
 
 ## ハードウェア
 
