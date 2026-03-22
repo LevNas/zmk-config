@@ -300,11 +300,13 @@
         cb_layer3_cx {
             bindings = <&mo 3>;
             key-positions = <16 25>;
+            timeout-ms = <60>;
         };
 
         cb_layer3_commadot {
             bindings = <&mo 3>;
             key-positions = <19 36>;
+            timeout-ms = <60>;
         };
     };
 
