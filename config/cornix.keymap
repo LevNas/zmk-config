@@ -285,14 +285,14 @@
             key-positions = <19 9>;
         };
 
-        cb_layer3_cv {
+        cb_layer3_cx {
             bindings = <&mo 3>;
-            key-positions = <27 28>;
+            key-positions = <27 26>;
         };
 
-        cb_layer3_mcomma {
+        cb_layer3_commadot {
             bindings = <&mo 3>;
-            key-positions = <33 34>;
+            key-positions = <34 35>;
         };
 
         cb_layer2_fz {
