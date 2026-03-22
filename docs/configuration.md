@@ -92,9 +92,32 @@ conditional_layers {
 
 Layer 4 (Adjust) provides BT management, layer toggles, and system controls.
 
+### Layer Tap for G key: `lt_g`
+
+A special layer-tap behavior for the G key. Uses `tap-preferred` flavor and `require-prior-idle-ms` so that fast typing (e.g. "ga", "gi", "gg") always sends the letter, and only a deliberate long press activates the Navi layer.
+
+```dts
+lt_g: layer_tap_g {
+    compatible = "zmk,behavior-hold-tap";
+    bindings = <&mo>, <&kp>;
+    flavor = "tap-preferred";
+    tapping-term-ms = <HM_TAPPING_TERM>;
+    quick-tap-ms = <200>;
+    require-prior-idle-ms = <HM_PRIOR_IDLE>;
+};
+```
+
+- **Tap**: G
+- **Hold** (250ms+, after idle): Navi layer (layer 5)
+- **Fast typing**: Always sends G (no layer activation)
+
 ## Firmware Settings (`cornix.conf`)
 
 | Setting | Value | Purpose |
 |---------|-------|---------|
 | `CONFIG_BT_CTLR_TX_PWR_PLUS_8` | `y` | Increase BT TX power for stable split connection |
 | `CONFIG_ZMK_IDLE_SLEEP_TIMEOUT` | `900000` | Sleep after 15 min idle (saves battery) |
+| `CONFIG_ZMK_KSCAN_DEBOUNCE_PRESS_MS` | `5` | Key press debounce (prevent chattering) |
+| `CONFIG_ZMK_KSCAN_DEBOUNCE_RELEASE_MS` | `5` | Key release debounce (prevent stuck keys) |
+| `CONFIG_BT_PERIPHERAL_PREF_MIN_INT` | `6` | BT connection interval min (7.5ms, stability) |
+| `CONFIG_BT_PERIPHERAL_PREF_MAX_INT` | `12` | BT connection interval max (15ms, stability) |

@@ -4,15 +4,15 @@ All combos defined in `config/cornix.keymap`.
 
 ## Navigation & Editing
 
-| Combo | Keys | Action | Layers |
-|-------|------|--------|--------|
-| Escape | W + E | `ESC` | Base, Win |
-| Tab | W + R | `TAB` | Base, Win |
-| Enter | J + ' | `RET` | Base, Win |
-| Backspace / Delete | I + O | `BSPC` (Shift: `DEL`) | Base, Win |
-| Space | G + B | `SPACE` | Base, Win |
-| Insert | J + O | `INS` | All |
-| IME Toggle | E + R | Alt + \` | All |
+| Combo | Keys | Action | Layers | timeout-ms |
+|-------|------|--------|--------|-----------|
+| Escape | W + E | `ESC` | Base, Win | |
+| Tab | W + R | `TAB` | Base, Win | |
+| Enter | J + ' | `RET` | Base, Win | 60 |
+| Backspace / Delete | I + O | `BSPC` (Shift: `DEL`) | Base, Win | 45 |
+| Space | G + B | `SPACE` | Base, Win | |
+| Insert | J + O | `INS` | All | |
+| IME Toggle | E + R | Alt + \` | All | |
 
 ## Brackets & Braces
 
@@ -49,9 +49,11 @@ All combos defined in `config/cornix.keymap`.
 
 ## Layer Activation (hold)
 
-| Combo | Keys | Layer |
-|-------|------|-------|
-| Layer 2 (Symbols) | F + Z | Symbols |
-| Layer 2 (Symbols) | J + / | Symbols |
-| Layer 3 (Mix) | C + V | Mix |
-| Layer 3 (Mix) | M + , | Mix |
+| Combo | Keys | Layer | timeout-ms |
+|-------|------|-------|-----------|
+| Layer 2 (Symbols) | C + X | Symbols | |
+| Layer 2 (Symbols) | , + . | Symbols | |
+| Layer 3 (Mix) | F + Z | Mix | 60 |
+| Layer 3 (Mix) | J + / | Mix | 60 |
+
+> **Note**: Distant key combos (F+Z, J+/, J+', I+O) have extended `timeout-ms` to accommodate the finger travel distance. Keymap Editor does not preserve `timeout-ms`, so these values must be re-added after editing with the GUI.

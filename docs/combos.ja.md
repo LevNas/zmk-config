@@ -4,15 +4,15 @@
 
 ## ナビゲーション・編集
 
-| コンボ | キー | 動作 | レイヤー |
-|--------|------|------|----------|
-| Escape | W + E | `ESC` | Base, Win |
-| Tab | W + R | `TAB` | Base, Win |
-| Enter | J + ' | `RET` | Base, Win |
-| Backspace / Delete | I + O | `BSPC`（Shift: `DEL`） | Base, Win |
-| Space | G + B | `SPACE` | Base, Win |
-| Insert | J + O | `INS` | 全レイヤー |
-| IME切替 | E + R | Alt + `` ` `` | 全レイヤー |
+| コンボ | キー | 動作 | レイヤー | timeout-ms |
+|--------|------|------|----------|-----------|
+| Escape | W + E | `ESC` | Base, Win | |
+| Tab | W + R | `TAB` | Base, Win | |
+| Enter | J + ' | `RET` | Base, Win | 60 |
+| Backspace / Delete | I + O | `BSPC`（Shift: `DEL`） | Base, Win | 45 |
+| Space | G + B | `SPACE` | Base, Win | |
+| Insert | J + O | `INS` | 全レイヤー | |
+| IME切替 | E + R | Alt + `` ` `` | 全レイヤー | |
 
 ## 括弧・ブレース
 
@@ -49,9 +49,11 @@
 
 ## レイヤー切替（ホールド）
 
-| コンボ | キー | レイヤー |
-|--------|------|----------|
-| Layer 2 (Symbols) | F + Z | シンボル |
-| Layer 2 (Symbols) | J + / | シンボル |
-| Layer 3 (Mix) | C + V | ミックス |
-| Layer 3 (Mix) | M + , | ミックス |
+| コンボ | キー | レイヤー | timeout-ms |
+|--------|------|----------|-----------|
+| Layer 2 (Symbols) | C + X | シンボル | |
+| Layer 2 (Symbols) | , + . | シンボル | |
+| Layer 3 (Mix) | F + Z | ミックス | 60 |
+| Layer 3 (Mix) | J + / | ミックス | 60 |
+
+> **注意**: 離れたキーのコンボ（F+Z, J+/, J+', I+O）には `timeout-ms` を延長しています。Keymap Editorは `timeout-ms` を保持しないため、GUIで編集した後に再追加が必要です。

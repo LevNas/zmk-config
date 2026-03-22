@@ -92,9 +92,32 @@ conditional_layers {
 
 Layer 4（Adjust）はBT管理、レイヤートグル、システム制御を提供します。
 
+### Gキー専用Layer Tap: `lt_g`
+
+Gキー用の特別なlayer-tapビヘイビアです。`tap-preferred` と `require-prior-idle-ms` を使い、高速タイピング（「が」「ぎ」「gg」等）では常に文字を送信し、意図的な長押しのみNaviレイヤーを発動します。
+
+```dts
+lt_g: layer_tap_g {
+    compatible = "zmk,behavior-hold-tap";
+    bindings = <&mo>, <&kp>;
+    flavor = "tap-preferred";
+    tapping-term-ms = <HM_TAPPING_TERM>;
+    quick-tap-ms = <200>;
+    require-prior-idle-ms = <HM_PRIOR_IDLE>;
+};
+```
+
+- **タップ**: G
+- **ホールド**（250ms以上、アイドル後）: Naviレイヤー（レイヤー5）
+- **高速タイピング中**: 常にG送信（レイヤー発動なし）
+
 ## ファームウェア設定（`cornix.conf`）
 
 | 設定 | 値 | 目的 |
 |------|------|------|
 | `CONFIG_BT_CTLR_TX_PWR_PLUS_8` | `y` | BT送信電力を上げて分割接続を安定化 |
 | `CONFIG_ZMK_IDLE_SLEEP_TIMEOUT` | `900000` | 15分アイドルでスリープ（バッテリー節約） |
+| `CONFIG_ZMK_KSCAN_DEBOUNCE_PRESS_MS` | `5` | キー押下のdebounce（チャタリング防止） |
+| `CONFIG_ZMK_KSCAN_DEBOUNCE_RELEASE_MS` | `5` | キー解放のdebounce（押しっぱなし防止） |
+| `CONFIG_BT_PERIPHERAL_PREF_MIN_INT` | `6` | BT接続間隔の最小値（7.5ms、安定性重視） |
+| `CONFIG_BT_PERIPHERAL_PREF_MAX_INT` | `12` | BT接続間隔の最大値（15ms、安定性重視） |
