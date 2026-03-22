@@ -133,7 +133,7 @@ lt_g: layer_tap_g {
 |---------|-------|---------|
 | `CONFIG_BT_CTLR_TX_PWR_PLUS_8` | `y` | Increase BT TX power for stable split connection |
 | `CONFIG_ZMK_IDLE_SLEEP_TIMEOUT` | `900000` | Sleep after 15 min idle (saves battery) |
-| `CONFIG_ZMK_KSCAN_DEBOUNCE_PRESS_MS` | `5` | Key press debounce (prevent chattering) |
-| `CONFIG_ZMK_KSCAN_DEBOUNCE_RELEASE_MS` | `5` | Key release debounce (prevent stuck keys) |
+| `CONFIG_ZMK_KSCAN_DEBOUNCE_PRESS_MS` | `10` | Key press debounce (prevent chattering) |
+| `CONFIG_ZMK_KSCAN_DEBOUNCE_RELEASE_MS` | `10` | Key release debounce (prevent stuck keys) |
 | `CONFIG_BT_PERIPHERAL_PREF_MIN_INT` | `6` | BT connection interval min (7.5ms, stability) |
 | `CONFIG_BT_PERIPHERAL_PREF_MAX_INT` | `12` | BT connection interval max (15ms, stability) |

@@ -133,7 +133,7 @@ lt_g: layer_tap_g {
 |------|------|------|
 | `CONFIG_BT_CTLR_TX_PWR_PLUS_8` | `y` | BT送信電力を上げて分割接続を安定化 |
 | `CONFIG_ZMK_IDLE_SLEEP_TIMEOUT` | `900000` | 15分アイドルでスリープ（バッテリー節約） |
-| `CONFIG_ZMK_KSCAN_DEBOUNCE_PRESS_MS` | `5` | キー押下のdebounce（チャタリング防止） |
-| `CONFIG_ZMK_KSCAN_DEBOUNCE_RELEASE_MS` | `5` | キー解放のdebounce（押しっぱなし防止） |
+| `CONFIG_ZMK_KSCAN_DEBOUNCE_PRESS_MS` | `10` | キー押下のdebounce（チャタリング防止） |
+| `CONFIG_ZMK_KSCAN_DEBOUNCE_RELEASE_MS` | `10` | キー解放のdebounce（押しっぱなし防止） |
 | `CONFIG_BT_PERIPHERAL_PREF_MIN_INT` | `6` | BT接続間隔の最小値（7.5ms、安定性重視） |
 | `CONFIG_BT_PERIPHERAL_PREF_MAX_INT` | `12` | BT接続間隔の最大値（15ms、安定性重視） |
