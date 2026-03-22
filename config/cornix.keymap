@@ -171,12 +171,14 @@
             bindings = <&kp RET>;
             key-positions = <19 23>;
             layers = <0 1>;
+            timeout-ms = <60>;
         };
 
         cb_bs_del {
             bindings = <&bs_del>;
             key-positions = <8 9>;
             layers = <0 1>;
+            timeout-ms = <45>;
         };
 
         cb_kp_space {
