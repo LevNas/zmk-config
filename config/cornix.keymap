@@ -377,10 +377,10 @@
             //               |     |      |      |      |        |  |       |      |       |       |      |
 
             bindings = <
-&none  &kp EXCL         &kp AT       &kp HASH  &kp DLLR    &kp PRCNT                             &kp CARET  &kp AMPS       &kp MINUS     &kp EQUAL             &kp BACKSLASH          &kp GRAVE
-&none  &kp EXCLAMATION  &kp AT_SIGN  &kp HASH  &kp DOLLAR  &kp PERCENT                           &kp CARET  &kp AMPERSAND  &kp ASTERISK  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp SQT
-&none  &none            &kp RBKT     &kp RPAR  &kp PIPE    &kp BSLH     &kp KP_NUMBER_2  &trans  &kp FSLH   &kp QUESTION   &kp GRAVE     &kp TILDE             &kp SQT                &none
-&none  &none            &none        &none     &trans      &trans                                &kp TILDE  &trans         &kp GRAVE     &none                 &none                  &none
+&none           &none            &none        &none     &none       &none                                 &none      &kp MINUS      &kp EQUAL     &kp BACKSLASH         &kp GRAVE              &none
+&none           &kp EXCLAMATION  &kp AT_SIGN  &kp HASH  &kp DOLLAR  &kp PERCENT                           &kp CARET  &kp AMPERSAND  &kp ASTERISK  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp SQT
+&kp LEFT_SHIFT  &none            &none        &none     &none       &none        &kp KP_NUMBER_2  &trans  &none      &none          &none         &none                 &none                  &kp RIGHT_SHIFT
+&none           &none            &none        &none     &trans      &trans                                &kp TILDE  &trans         &kp GRAVE     &none                 &none                  &none
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
@@ -427,10 +427,10 @@
         Navi_layer {
             display-name = "Navi";
             bindings = <
-&none  &none  &none           &mmv MOVE_UP    &kp PAGE_UP      &kp PAGE_DOWN                            &mkp MB1  &mkp MB3  &mkp MB2  &msc SCRL_UP  &msc SCRL_DOWN  &none
-&none  &none  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &msc SCRL_UP                             &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT     &none           &none
-&none  &none  &none           &none           &none            &msc SCRL_DOWN  &kp KP_NUMBER_5  &trans  &trans    &trans    &none     &none         &none           &none
-&none  &none  &none           &mo 7           &trans           &trans                                   &none     &none     &kp N5    &none         &none           &none
+&none  &none  &none           &mmv MOVE_UP    &kp PAGE_UP      &kp PAGE_DOWN                            &kp HOME  &kp PAGE_DOWN  &kp PG_UP  &kp END    &msc SCRL_DOWN  &none
+&none  &none  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &msc SCRL_UP                             &kp LEFT  &kp DOWN       &kp UP     &kp RIGHT  &none           &none
+&none  &none  &none           &none           &none            &msc SCRL_DOWN  &kp KP_NUMBER_5  &trans  &trans    &trans         &none      &none      &none           &none
+&none  &none  &none           &mo 7           &trans           &trans                                   &none     &none          &kp N5     &none      &none           &none
             >;
         };
 
