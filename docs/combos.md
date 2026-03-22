@@ -2,14 +2,16 @@
 
 All combos defined in `config/cornix.keymap`.
 
+All combos have `require-prior-idle-ms = <150>` to prevent misfires during fast typing. Combos only trigger if 150ms has passed since the last keypress.
+
 ## Navigation & Editing
 
 | Combo | Keys | Action | Layers | timeout-ms |
 |-------|------|--------|--------|-----------|
 | Escape | W + E | `ESC` | Base, Win | |
 | Tab | W + R | `TAB` | Base, Win | |
-| Enter | J + ' | `RET` | Base, Win | 60 |
-| Backspace / Delete | I + O | `BSPC` (Shift: `DEL`) | Base, Win | 45 |
+| Enter | J + ' | `RET` | Base, Win | 45 |
+| Backspace / Delete | I + O | `BSPC` (Shift: `DEL`) | Base, Win | 60 |
 | Space | G + B | `SPACE` | Base, Win | |
 | Insert | J + O | `INS` | All | |
 | IME Toggle | E + R | Alt + \` | All | |
@@ -27,25 +29,27 @@ All combos defined in `config/cornix.keymap`.
 | `[` | E + D | Left Bracket |
 | `]` | I + K | Right Bracket |
 
-## Modifiers (Left Hand, anchor: F)
+## Modifiers (Sticky Key)
+
+Modifier combos use sticky keys (`&sk`). Press the combo, release, then press the next key — the modifier applies to that one keypress only.
+
+Sticky keys **stack**: press F+S (Ctrl), then F+A (Shift), then any key → sends Ctrl+Shift+key. This enables one-handed modifier combinations.
+
+### Left Hand (anchor: F)
 
 | Combo | Keys | Action |
 |-------|------|--------|
-| L-Ctrl | F + S | Left Control |
-| L-Shift | F + A | Left Shift |
-| L-Alt | F + D | Left Alt |
-| L-Ctrl + L-Alt | F + S + D | Left Control + Left Alt |
-| L-Ctrl + L-Shift | F + A + S | Left Control + Left Shift |
+| L-Ctrl | F + S | Sticky Left Control |
+| L-Shift | F + A | Sticky Left Shift |
+| L-Alt | F + D | Sticky Left Alt |
 
-## Modifiers (Right Hand, anchor: J)
+### Right Hand (anchor: J)
 
 | Combo | Keys | Action |
 |-------|------|--------|
-| R-Ctrl | J + L | Right Control |
-| R-Shift | J + ; | Right Shift |
-| R-Alt | J + K | Right Alt |
-| R-Ctrl + R-Alt | J + K + L | Right Control + Right Alt |
-| R-Ctrl + R-Shift | J + L + ; | Right Control + Right Shift |
+| R-Ctrl | J + L | Sticky Right Control |
+| R-Shift | J + ; | Sticky Right Shift |
+| R-Alt | J + K | Sticky Right Alt |
 
 ## Layer Activation (hold)
 
@@ -56,4 +60,4 @@ All combos defined in `config/cornix.keymap`.
 | Layer 3 (Mix) | F + Z | Mix | 60 |
 | Layer 3 (Mix) | J + / | Mix | 60 |
 
-> **Note**: Distant key combos (F+Z, J+/, J+', I+O) have extended `timeout-ms` to accommodate the finger travel distance. Keymap Editor does not preserve `timeout-ms`, so these values must be re-added after editing with the GUI.
+> **Note**: Keymap Editor does not preserve `timeout-ms` or `require-prior-idle-ms`. These values must be re-added after editing with the GUI.

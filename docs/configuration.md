@@ -92,6 +92,22 @@ conditional_layers {
 
 Layer 4 (Adjust) provides BT management, layer toggles, and system controls.
 
+### Sticky Key Modifiers
+
+Modifier combos use `&sk` (sticky key) instead of `&kp`. This enables one-handed modifier stacking.
+
+```dts
+cb_kp_l-ctrl {
+    bindings = <&sk LCTRL>;
+    key-positions = <16 14>;    // F + S
+    require-prior-idle-ms = <150>;
+};
+```
+
+- **Press combo, release, press next key**: Modifier applies to one keypress only
+- **Stack multiple**: F+S (Ctrl) → F+A (Shift) → key = Ctrl+Shift+key
+- **Auto-release**: Modifier deactivates after the next keypress
+
 ### Layer Tap for G key: `lt_g`
 
 A special layer-tap behavior for the G key. Uses `tap-preferred` flavor and `require-prior-idle-ms` so that fast typing (e.g. "ga", "gi", "gg") always sends the letter, and only a deliberate long press activates the Navi layer.

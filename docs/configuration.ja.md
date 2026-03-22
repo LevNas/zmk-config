@@ -92,6 +92,22 @@ conditional_layers {
 
 Layer 4（Adjust）はBT管理、レイヤートグル、システム制御を提供します。
 
+### Sticky Key 修飾キー
+
+修飾キーコンボは `&kp` ではなく `&sk`（sticky key）を使用しています。片手での修飾キースタックが可能です。
+
+```dts
+cb_kp_l-ctrl {
+    bindings = <&sk LCTRL>;
+    key-positions = <16 14>;    // F + S
+    require-prior-idle-ms = <150>;
+};
+```
+
+- **コンボを押して離し、次のキーを押す**: 修飾キーが1回だけ適用される
+- **スタック**: F+S（Ctrl）→ F+A（Shift）→ キー = Ctrl+Shift+キー
+- **自動解除**: 次のキー入力後に修飾キーが解除される
+
 ### Gキー専用Layer Tap: `lt_g`
 
 Gキー用の特別なlayer-tapビヘイビアです。`tap-preferred` と `require-prior-idle-ms` を使い、高速タイピング（「が」「ぎ」「gg」等）では常に文字を送信し、意図的な長押しのみNaviレイヤーを発動します。
