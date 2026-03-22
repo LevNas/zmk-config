@@ -8,7 +8,7 @@
 
 ![Cornix LP Keymap](docs/keymap.svg)
 
-コンボキーの一覧は [コンボリファレンス](docs/combos.md) を参照してください。
+コンボキーの一覧は [コンボリファレンス](docs/combos.md)、ビヘイビア・マクロ・ファームウェア設定の詳細は [設定リファレンス](docs/configuration.md) を参照してください。
 
 ## ビルド
 

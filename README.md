@@ -8,7 +8,7 @@ ZMK firmware configuration for [Cornix LP](https://github.com/hitsmaxft/zmk-keyb
 
 ![Cornix LP Keymap](docs/keymap.svg)
 
-See [Combo Reference](docs/combos.md) for all combo key bindings.
+See [Combo Reference](docs/combos.md) for all combo key bindings and [Configuration Reference](docs/configuration.md) for behaviors, macros, and firmware settings.
 
 ## Build
 
