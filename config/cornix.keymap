@@ -182,14 +182,14 @@
             bindings = <&kp RET>;
             key-positions = <19 23>;
             layers = <0 1>;
-            timeout-ms = <60>;
+            timeout-ms = <45>;
         };
 
         cb_bs_del {
             bindings = <&bs_del>;
             key-positions = <8 9>;
             layers = <0 1>;
-            timeout-ms = <45>;
+            timeout-ms = <60>;
         };
 
         cb_kp_space {
@@ -244,53 +244,33 @@
         };
 
         cb_kp_l-ctrl {
-            bindings = <&kp LCTRL>;
+            bindings = <&sk LCTRL>;
             key-positions = <16 14>;
         };
 
         cb_kp_r-ctrl {
-            bindings = <&kp RCTRL>;
+            bindings = <&sk RCTRL>;
             key-positions = <19 21>;
         };
 
         cb_kp_l-shift {
-            bindings = <&kp LEFT_SHIFT>;
+            bindings = <&sk LEFT_SHIFT>;
             key-positions = <16 13>;
         };
 
         cb_kp_r-shift {
-            bindings = <&kp RIGHT_SHIFT>;
+            bindings = <&sk RIGHT_SHIFT>;
             key-positions = <19 22>;
         };
 
         cb_kp_l-alt {
-            bindings = <&kp LEFT_ALT>;
+            bindings = <&sk LEFT_ALT>;
             key-positions = <16 15>;
         };
 
         cb_kp_r-alt {
-            bindings = <&kp RIGHT_ALT>;
+            bindings = <&sk RIGHT_ALT>;
             key-positions = <19 20>;
-        };
-
-        cb_kb_l-ctrl_l-alt {
-            bindings = <&kp LA(LCTRL)>;
-            key-positions = <16 15 14>;
-        };
-
-        cb_kb_r-ctrl_r-alt {
-            bindings = <&kp RA(RCTRL)>;
-            key-positions = <19 20 21>;
-        };
-
-        cb_kb_l-ctrl_l-shift {
-            bindings = <&kp LS(LCTRL)>;
-            key-positions = <16 13 14>;
-        };
-
-        cb_kb_r-ctrl_r-shift {
-            bindings = <&kp RS(RCTRL)>;
-            key-positions = <19 21 22>;
         };
 
         cb_kp_insert {
