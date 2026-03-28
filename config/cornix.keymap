@@ -38,7 +38,6 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/ext_power.h>
 #include <dt-bindings/zmk/keys.h>
-#include <dt-bindings/zmk/pointing.h>
 
 / {
     // Activate ADJUST layer by pressing raise and lower
@@ -433,10 +432,10 @@
         Navi_layer {
             display-name = "Navi";
             bindings = <
-&none  &none           &none           &mmv MOVE_UP    &kp PAGE_UP      &kp PAGE_DOWN                            &kp HOME  &kp PAGE_DOWN  &kp PG_UP  &kp END    &none  &kp DELETE
-&none  &kp LEFT_SHIFT  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &msc SCRL_UP                             &kp LEFT  &kp DOWN       &kp UP     &kp RIGHT  &none  &none
-&none  &none           &none           &none           &none            &msc SCRL_DOWN  &kp KP_NUMBER_5  &trans  &trans    &trans         &none      &none      &none  &none
-&none  &none           &none           &mo DEBUG       &trans           &trans                                   &none     &none          &kp N5     &none      &none  &kp RA(RCTRL)
+&none  &none           &none  &none      &none   &none                            &kp HOME  &kp PAGE_DOWN  &kp PG_UP  &kp END    &none  &kp DELETE
+&none  &kp LEFT_SHIFT  &none  &none      &none   &none                            &kp LEFT  &kp DOWN       &kp UP     &kp RIGHT  &none  &none
+&none  &none           &none  &none      &none   &none   &kp KP_NUMBER_5  &trans  &trans    &trans         &none      &none      &none  &none
+&none  &none           &none  &mo DEBUG  &trans  &trans                           &none     &none          &kp N5     &none      &none  &kp RA(RCTRL)
             >;
         };
 
