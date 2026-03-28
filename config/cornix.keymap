@@ -184,8 +184,8 @@
         cb_kp_enter {
             bindings = <&kp RET>;
             key-positions = <19 23>;
-            layers = <7>;
-            timeout-ms = <60>;
+            layers = <7 0>;
+            timeout-ms = <40>;
             require-prior-idle-ms = <150>;
         };
 
