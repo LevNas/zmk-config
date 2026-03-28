@@ -453,10 +453,10 @@
         Combo_layer {
             display-name = "Combo";
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans                          &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &sk LEFT_SHIFT  &sk LCTRL  &sk LEFT_ALT  &trans  &trans                          &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans                          &trans  &trans  &trans  &trans  &trans  &trans
+&none  &none  &none  &none  &none  &none                        &none  &none  &none  &none  &none  &none
+&none  &sk LEFT_SHIFT  &sk LCTRL  &sk LEFT_ALT  &none  &none                        &none  &none  &none  &none  &none  &none
+&none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none
+&none  &none  &none  &none  &none  &none                        &none  &none  &none  &none  &none  &none
             >;
         };
 
