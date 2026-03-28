@@ -185,7 +185,7 @@
             bindings = <&kp RET>;
             key-positions = <19 23>;
             layers = <7>;
-            timeout-ms = <45>;
+            timeout-ms = <40>;
             require-prior-idle-ms = <150>;
         };
 
