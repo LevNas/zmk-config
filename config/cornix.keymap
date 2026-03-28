@@ -184,7 +184,7 @@
         cb_kp_enter {
             bindings = <&kp RET>;
             key-positions = <19 23>;
-            layers = <COMBO>;
+            layers = <7>;
             timeout-ms = <45>;
             require-prior-idle-ms = <150>;
         };
@@ -192,7 +192,7 @@
         cb_bs_del {
             bindings = <&bs_del>;
             key-positions = <8 9>;
-            layers = <COMBO>;
+            layers = <7>;
             timeout-ms = <60>;
             require-prior-idle-ms = <150>;
         };
@@ -261,21 +261,21 @@
         cb_kp_r-ctrl {
             bindings = <&sk RCTRL>;
             key-positions = <19 21>;
-            layers = <COMBO>;
+            layers = <7>;
             require-prior-idle-ms = <150>;
         };
 
         cb_kp_r-shift {
             bindings = <&sk RIGHT_SHIFT>;
             key-positions = <19 22>;
-            layers = <COMBO>;
+            layers = <7>;
             require-prior-idle-ms = <150>;
         };
 
         cb_kp_r-alt {
             bindings = <&sk RIGHT_ALT>;
             key-positions = <19 20>;
-            layers = <COMBO>;
+            layers = <7>;
             require-prior-idle-ms = <150>;
         };
 
@@ -342,10 +342,10 @@
             //               | GUI | ALT  | CTRL | LOWER|  ENTER |  | SPACE | RAISE| CTRL  | ALT   | GUI  |
 
             bindings = <
-&kp ESCAPE      &kp Q  &kp W  &kp E         &kp R  &kp T                                &kp Y      &kp U  &kp I            &kp O    &kp P          &kp BSLH
+&kp ESCAPE      &kp Q  &kp W  &kp E         &kp R          &kp T                                &kp Y      &kp U  &kp I            &kp O    &kp P          &kp BSLH
 &kp TAB         &kp A  &kp S  &kp D         &lt_g COMBO F  &lt_g 5 G                            &kp H      &kp J  &kp K            &kp L    &kp SEMICOLON  &kp SQT
-&kp LEFT_SHIFT  &kp Z  &kp X  &kp C         &kp V  &kp B        &kp KP_NUMBER_0  &none  &kp N      &kp M  &kp COMMA        &kp DOT  &kp FSLH       &kp RIGHT_SHIFT
-&none           &none  &none  &lt 6 ESCAPE  &mo 2  &lt 5 SPACE                          &kp ENTER  &mo 3  &lt 2 BACKSPACE  &none    &none          &none
+&kp LEFT_SHIFT  &kp Z  &kp X  &kp C         &kp V          &kp B        &kp KP_NUMBER_0  &none  &kp N      &kp M  &kp COMMA        &kp DOT  &kp FSLH       &kp RIGHT_SHIFT
+&none           &none  &none  &lt 6 ESCAPE  &mo 2          &lt 5 SPACE                          &kp ENTER  &mo 3  &lt 2 BACKSPACE  &none    &none          &none
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
@@ -436,27 +436,27 @@
 &none  &none           &none           &mmv MOVE_UP    &kp PAGE_UP      &kp PAGE_DOWN                            &kp HOME  &kp PAGE_DOWN  &kp PG_UP  &kp END    &none  &kp DELETE
 &none  &none           &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &msc SCRL_UP                             &kp LEFT  &kp DOWN       &kp UP     &kp RIGHT  &none  &none
 &none  &kp LEFT_SHIFT  &none           &none           &none            &msc SCRL_DOWN  &kp KP_NUMBER_5  &trans  &trans    &trans         &none      &none      &none  &none
-&none  &none           &none           &mo DEBUG           &trans           &trans                                   &none     &none          &kp N5     &none      &none  &kp RA(RCTRL)
+&none  &none           &none           &mo DEBUG       &trans           &trans                                   &none     &none          &kp N5     &none      &none  &kp RA(RCTRL)
             >;
         };
 
         KeyPad_layer {
             display-name = "NumPad";
             bindings = <
-&mo DEBUG  &none  &none  &none  &none  &none                           &kp KP_N7        &kp KP_N8        &kp KP_N9        &kp KP_MINUS  &kp KP_MULTIPLY  &none
-&none  &none  &none  &none  &none  &none                           &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp KP_N6        &kp KP_PLUS   &kp KP_DIVIDE    &none
-&none  &none  &none  &none  &none  &none  &kp KP_NUMBER_6  &trans  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp KP_N3        &none         &none            &none
-&none  &none  &none  &none  &none  &mo DEBUG                           &kp KP_N0        &kp KP_DOT       &kp KP_NUMBER_0  &none         &none            &none
+&mo DEBUG  &none  &none  &none  &none  &none                               &kp KP_N7        &kp KP_N8        &kp KP_N9        &kp KP_MINUS  &kp KP_MULTIPLY  &none
+&none      &none  &none  &none  &none  &none                               &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp KP_N6        &kp KP_PLUS   &kp KP_DIVIDE    &none
+&none      &none  &none  &none  &none  &none      &kp KP_NUMBER_6  &trans  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp KP_N3        &none         &none            &none
+&none      &none  &none  &none  &none  &mo DEBUG                           &kp KP_N0        &kp KP_DOT       &kp KP_NUMBER_0  &none         &none            &none
             >;
         };
 
         Combo_layer {
             display-name = "Combo";
             bindings = <
-&none  &none  &none  &none  &none  &none                        &none  &none  &none  &none  &none  &none
-&none  &sk LEFT_SHIFT  &sk LCTRL  &sk LEFT_ALT  &none  &none                        &none  &none  &none  &none  &none  &none
-&none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none
-&none  &none  &none  &none  &none  &none                        &none  &none  &none  &none  &none  &none
+&none  &none           &none      &none         &none  &none                &none  &none  &none  &none  &none  &none
+&none  &sk LEFT_SHIFT  &sk LCTRL  &sk LEFT_ALT  &none  &none                &none  &none  &none  &none  &none  &none
+&none  &none           &none      &none         &none  &none  &none  &none  &none  &none  &none  &none  &none  &none
+&none  &none           &none      &none         &none  &none                &none  &none  &none  &none  &none  &none
             >;
         };
 
