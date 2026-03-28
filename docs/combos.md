@@ -19,12 +19,12 @@ These are mapped directly on the Combo layer (not as combos), since F (the layer
 | A | Sticky Left Shift |
 | S | Sticky Left Control |
 | D | Sticky Left Alt |
+| Z (hold) | Mix layer (layer 3) |
 
 ### Right Hand — Layer-Restricted Combos
 
 | Combo | Keys | Action | timeout-ms |
 |-------|------|--------|-----------|
-| Enter | J + ' | `RET` | 60 |
 | Backspace / Delete | I + O | `BSPC` (Shift: `DEL`) | 60 |
 | R-Ctrl | J + L | Sticky Right Control | |
 | R-Shift | J + ; | Sticky Right Shift | |
@@ -38,6 +38,7 @@ Sticky keys **stack**: hold F, press A (Shift), then press S (Ctrl), then releas
 |-------|------|--------|--------|-----------|
 | Escape | W + E | `ESC` | Base, Win | |
 | Tab | W + R | `TAB` | Base, Win | |
+| Enter | J + ' | `RET` | Base, Combo | 60 |
 | Space | G + B | `SPACE` | Base, Win | |
 | Insert | J + O | `INS` | All | |
 | IME Toggle | E + R | Alt + \` | All | |
