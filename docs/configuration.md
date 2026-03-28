@@ -92,25 +92,36 @@ conditional_layers {
 
 Layer 4 (Adjust) provides BT management, layer toggles, and system controls.
 
-### Sticky Key Modifiers
+### Combo Layer (Sticky Key Modifiers)
 
-Modifier combos use `&sk` (sticky key) instead of `&kp`. This enables one-handed modifier stacking.
+Modifier and editing combos are isolated in a dedicated **Combo layer** (layer 7) to eliminate misfires during normal typing. The Combo layer is activated by holding F and has all keys set to `&none` — only the defined modifiers and combos are functional.
+
+**Left hand** — direct keymap bindings on the Combo layer (not combos, to avoid hold-tap conflict with F):
+
+| Key | Binding |
+|-----|---------|
+| A | `&sk LEFT_SHIFT` |
+| S | `&sk LCTRL` |
+| D | `&sk LEFT_ALT` |
+
+**Right hand** — layer-restricted combos (`layers = <7>`):
 
 ```dts
-cb_kp_l-ctrl {
-    bindings = <&sk LCTRL>;
-    key-positions = <16 14>;    // F + S
+cb_kp_r-ctrl {
+    bindings = <&sk RCTRL>;
+    key-positions = <19 21>;    // J + L
+    layers = <7>;               // Combo layer only
     require-prior-idle-ms = <150>;
 };
 ```
 
-- **Press combo, release, press next key**: Modifier applies to one keypress only
-- **Stack multiple**: F+S (Ctrl) → F+A (Shift) → key = Ctrl+Shift+key
+- **Hold F, press modifier, release F, press next key**: Modifier applies to one keypress only
+- **Stack multiple**: Hold F → A (Shift) → S (Ctrl) → release F → key = Ctrl+Shift+key
 - **Auto-release**: Modifier deactivates after the next keypress
 
-### Layer Tap for G key: `lt_g`
+### Layer Tap: `lt_g`
 
-A special layer-tap behavior for the G key. Uses `tap-preferred` flavor and `require-prior-idle-ms` so that fast typing (e.g. "ga", "gi", "gg") always sends the letter, and only a deliberate long press activates the Navi layer.
+A `tap-preferred` layer-tap behavior. Uses `require-prior-idle-ms` so that fast typing always sends the letter, and only a deliberate long press activates the target layer. Used for both the **F key** (Combo layer) and **G key** (Navi layer).
 
 ```dts
 lt_g: layer_tap_g {
@@ -123,9 +134,12 @@ lt_g: layer_tap_g {
 };
 ```
 
-- **Tap**: G
-- **Hold** (250ms+, after idle): Navi layer (layer 5)
-- **Fast typing**: Always sends G (no layer activation)
+| Key | Tap | Hold | Layer |
+|-----|-----|------|-------|
+| F | F | Combo layer (layer 7) | Modifiers & editing combos |
+| G | G | Navi layer (layer 5) | Arrow keys, mouse, scroll |
+
+- **Fast typing**: Always sends the letter (no layer activation)
 
 ## Firmware Settings (`cornix.conf`)
 

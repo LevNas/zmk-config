@@ -4,14 +4,40 @@
 
 全コンボに `require-prior-idle-ms = <150>` を設定しています。直前のキー入力から150ms経過していないとコンボが発動しないため、高速タイピング中の誤発動を防止します。
 
-## ナビゲーション・編集
+## Comboレイヤー（F長押し）
+
+修飾キーと編集系コンボは**Comboレイヤー**（レイヤー7）専用で、F長押しで有効になります。通常タイピング中にI+OやJ+'が誤発動する問題を根本的に解消しています。
+
+Comboレイヤー中は**定義した修飾キーとコンボ以外のキーは全て無効**（`&none`）です。Fを離すとBaseレイヤーに戻ります。
+
+### 左手 — キーマップ直接割当
+
+F（レイヤーキー）自身がコンボメンバーになるとコンボ解決と競合するため、コンボではなくレイヤー上のキーマップに直接割り当てています。
+
+| キー | 動作 |
+|------|------|
+| A | Sticky 左Shift |
+| S | Sticky 左Control |
+| D | Sticky 左Alt |
+
+### 右手 — レイヤー限定コンボ
+
+| コンボ | キー | 動作 | timeout-ms |
+|--------|------|------|-----------|
+| Enter | J + ' | `RET` | 60 |
+| Backspace / Delete | I + O | `BSPC`（Shift: `DEL`） | 60 |
+| R-Ctrl | J + L | Sticky 右Control | |
+| R-Shift | J + ; | Sticky 右Shift | |
+| R-Alt | J + K | Sticky 右Alt | |
+
+Sticky keyは**スタック可能**です：F長押し → A（Shift）→ S（Ctrl）→ F離して任意のキー → Ctrl+Shift+キーが送信されます。
+
+## ナビゲーション・編集（Base/Winレイヤー）
 
 | コンボ | キー | 動作 | レイヤー | timeout-ms |
 |--------|------|------|----------|-----------|
 | Escape | W + E | `ESC` | Base, Win | |
 | Tab | W + R | `TAB` | Base, Win | |
-| Enter | J + ' | `RET` | Base, Win | 45 |
-| Backspace / Delete | I + O | `BSPC`（Shift: `DEL`） | Base, Win | 60 |
 | Space | G + B | `SPACE` | Base, Win | |
 | Insert | J + O | `INS` | 全レイヤー | |
 | IME切替 | E + R | Alt + `` ` `` | 全レイヤー | |
@@ -28,28 +54,6 @@
 | `>` | O + L | 大なり |
 | `[` | E + D | 左角括弧 |
 | `]` | I + K | 右角括弧 |
-
-## 修飾キー（Sticky Key）
-
-修飾キーコンボはsticky key（`&sk`）を使用しています。コンボを押して離し、次の1キーにだけ修飾キーが適用されます。
-
-Sticky keyは**スタック可能**です：F+S（Ctrl）→ F+A（Shift）→ 任意のキー → Ctrl+Shift+キーが送信されます。片手で複数の修飾キーを組み合わせられます。
-
-### 左手（アンカー: F）
-
-| コンボ | キー | 動作 |
-|--------|------|------|
-| L-Ctrl | F + S | Sticky 左Control |
-| L-Shift | F + A | Sticky 左Shift |
-| L-Alt | F + D | Sticky 左Alt |
-
-### 右手（アンカー: J）
-
-| コンボ | キー | 動作 |
-|--------|------|------|
-| R-Ctrl | J + L | Sticky 右Control |
-| R-Shift | J + ; | Sticky 右Shift |
-| R-Alt | J + K | Sticky 右Alt |
 
 ## レイヤー切替（ホールド）
 
