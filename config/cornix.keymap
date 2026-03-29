@@ -16,15 +16,14 @@
 
 #define HM_TAPPING_TERM_FAST 200
 #define HM_PRIOR_IDLE 70
-#define BASE 0
-#define WIN 1
-#define LOWER 2
-#define RAISE 3
-#define ADJUST 4
-#define NAVI   5
-#define NUM    6
-#define COMBO  7
-#define DEBUG  8
+#define BASE   0
+#define LOWER  1
+#define RAISE  2
+#define ADJUST 3
+#define NAVI   4
+#define NUM    5
+#define COMBO  6
+#define DEBUG  7
 
 // https://github.com/urob/zmk-config/tree/main#timeless-homerow-mods
 
