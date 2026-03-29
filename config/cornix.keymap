@@ -340,10 +340,10 @@
             //               | GUI | ALT  | CTRL | LOWER|  ENTER |  | SPACE | RAISE| CTRL  | ALT   | GUI  |
 
             bindings = <
-&kp ESCAPE      &kp Q  &kp W  &kp E         &kp R      &kp T                                &kp Y      &kp U  &kp I            &kp O    &kp P          &kp BSLH
-&kp TAB         &kp A  &kp S  &lt_g 6 D     &kp F      &lt_g 4 G                            &kp H      &kp J  &kp K            &kp L    &kp SEMICOLON  &kp SQT
-&kp LEFT_SHIFT  &kp Z  &kp X  &kp C         &kp V      &kp B        &kp KP_NUMBER_0  &none  &kp N      &kp M  &kp COMMA        &kp DOT  &kp FSLH       &kp RIGHT_SHIFT
-&none           &none  &none  &lt 5 ESCAPE  &mo 1      &lt 4 SPACE                          &kp ENTER  &mo 2  &lt 1 BACKSPACE  &none    &none          &none
+&kp ESCAPE      &kp Q  &kp W  &kp E         &kp R  &kp T                                &kp Y      &kp U  &kp I            &kp O    &kp P          &kp BSLH
+&kp TAB         &kp A  &kp S  &lt_g 6 D     &kp F  &lt_g 4 G                            &kp H      &kp J  &kp K            &kp L    &kp SEMICOLON  &kp SQT
+&kp LEFT_SHIFT  &kp Z  &kp X  &kp C         &kp V  &kp B        &kp KP_NUMBER_0  &none  &kp N      &kp M  &kp COMMA        &kp DOT  &kp FSLH       &kp RIGHT_SHIFT
+&none           &none  &none  &lt 5 ESCAPE  &mo 1  &lt 4 SPACE                          &kp ENTER  &mo 2  &lt 1 BACKSPACE  &none    &none          &none
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
@@ -361,7 +361,7 @@
             //               |     |      |      |      |        |  |       |      |       |       |      |
 
             bindings = <
-&none  &none            &none        &none     &none       &none                                    &none            &none          &kp MINUS     &kp EQUAL             &kp BACKSLASH          &kp GRAVE
+&to 0  &none            &none        &none     &none       &none                                    &none            &none          &kp MINUS     &kp EQUAL             &kp BACKSLASH          &kp GRAVE
 &none  &kp EXCLAMATION  &kp AT_SIGN  &kp HASH  &kp DOLLAR  &kp PERCENT                              &kp CARET        &kp AMPERSAND  &kp ASTERISK  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &none
 &none  &kp LEFT_SHIFT   &none        &none     &none       &none           &kp KP_NUMBER_2  &trans  &none            &none          &none         &none                 &kp RIGHT_SHIFT        &none
 &none  &none            &none        &none     &trans      &kp LEFT_SHIFT                           &kp RIGHT_SHIFT  &trans         &kp GRAVE     &none                 &none                  &none
@@ -381,7 +381,7 @@
             //                |      |       |       |      |      |  |      |      |      |       |      |
 
             bindings = <
-&trans  &kp F1  &kp F2  &kp F3   &kp F4  &kp F5                                  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &kp F11
+&to 0   &kp F1  &kp F2  &kp F3   &kp F4  &kp F5                                  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &kp F11
 &trans  &kp N1  &kp N2  &kp N3   &kp N4  &kp N5                                  &kp N6  &kp N7  &kp N8  &kp N9  &kp N0   &kp F12
 &trans  &none   &none   &none    &none   &none          &kp KP_NUMBER_3  &trans  &none   &none   &none   &none   &trans   &trans
 &none   &none   &none   &kp TAB  &trans  &kp BACKSPACE                           &trans  &trans  &kp N3  &none   &none    &none
@@ -401,17 +401,17 @@
             //                    |         |         |         |         |         | |      |      |      |       |      |
 
             bindings = <
-&bt BT_CLR      &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4                            &none   &none  &none   &none  &none             &none
-&none           &bt BT_DISC 0  &bt BT_DISC 1  &bt BT_DISC 2  &bt BT_DISC 3  &bt BT_DISC 4                           &tog 0  &to 0  &none   &none  &none             &tog 0
-&bt BT_CLR_ALL  &none          &none          &none          &none          &none          &kp KP_NUMBER_4  &trans  &none   &none  &none   &none  &ext_power EP_ON  &kp CAPSLOCK
-&none           &none          &none          &none          &none          &none                                   &none   &none  &kp N4  &none  &none             &none
+&to 0           &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4                            &none             &none              &none              &none  &none  &bt BT_CLR
+&none           &bt BT_DISC 0  &bt BT_DISC 1  &bt BT_DISC 2  &bt BT_DISC 3  &bt BT_DISC 4                           &tog 0            &to 0              &none              &none  &none  &bt BT_CLR_ALL
+&bt BT_CLR_ALL  &none          &none          &none          &none          &none          &kp KP_NUMBER_4  &trans  &none             &none              &none              &none  &none  &none
+&none           &none          &none          &none          &none          &none                                   &ext_power EP_ON  &ext_power EP_TOG  &ext_power EP_OFF  &none  &none  &none
             >;
         };
 
         Navi_layer {
             display-name = "Navi";
             bindings = <
-&none  &none           &none  &none  &none   &none                            &kp HOME  &kp PAGE_DOWN  &kp PG_UP  &kp END    &none  &kp DELETE
+&to 0  &none           &none  &none  &none   &none                            &kp HOME  &kp PAGE_DOWN  &kp PG_UP  &kp END    &none  &kp DELETE
 &none  &kp LEFT_SHIFT  &none  &none  &none   &none                            &kp LEFT  &kp DOWN       &kp UP     &kp RIGHT  &none  &none
 &none  &none           &none  &none  &none   &none   &kp KP_NUMBER_5  &trans  &trans    &trans         &none      &none      &none  &none
 &none  &none           &none  &mo 7  &trans  &trans                           &none     &none          &kp N5     &none      &none  &kp RA(RCTRL)
@@ -421,7 +421,7 @@
         KeyPad_layer {
             display-name = "NumPad";
             bindings = <
-&mo 7  &none  &none  &none  &none  &none                           &kp KP_N7        &kp KP_N8        &kp KP_N9        &kp KP_MINUS  &kp KP_MULTIPLY  &none
+&to 0  &none  &none  &none  &none  &none                           &kp KP_N7        &kp KP_N8        &kp KP_N9        &kp KP_MINUS  &kp KP_MULTIPLY  &none
 &none  &none  &none  &none  &none  &none                           &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp KP_N6        &kp KP_PLUS   &kp KP_DIVIDE    &none
 &none  &none  &none  &none  &none  &none  &kp KP_NUMBER_6  &trans  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp KP_N3        &none         &none            &none
 &none  &none  &none  &none  &none  &mo 7                           &kp KP_N0        &kp KP_DOT       &kp KP_NUMBER_0  &none         &none            &none
@@ -431,10 +431,10 @@
         Combo_layer {
             display-name = "Combo";
             bindings = <
-&none  &none           &none      &none         &none  &none                &none  &none  &none  &none  &none  &none
-&none  &sk LEFT_SHIFT  &sk LCTRL  &none          &sk LEFT_ALT  &none                &none  &none  &none  &none  &none  &none
-&none  &mo 2           &none      &none         &none  &none  &none  &none  &none  &none  &none  &none  &none  &none
-&none  &none           &none      &none         &none  &none                &none  &none  &none  &none  &none  &none
+&to 0  &none           &none      &none  &none         &none                &none  &none  &none  &none  &none  &none
+&none  &sk LEFT_SHIFT  &sk LCTRL  &none  &sk LEFT_ALT  &none                &none  &none  &none  &none  &none  &none
+&none  &mo 2           &none      &none  &none         &none  &none  &none  &none  &none  &none  &none  &none  &none
+&none  &none           &none      &none  &none         &none                &none  &none  &none  &none  &none  &none
             >;
         };
 
@@ -449,10 +449,10 @@
             //                    |         |         |         |         |         | |      |      |      |       |      |
 
             bindings = <
-&bt BT_CLR  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4                           &none        &none  &none   &none  &none  &none
-&none       &none         &none         &none         &none         &none                                  &none        &none  &none   &none  &none  &none
-&none       &none         &none         &none         &none         &bootloader   &kp KP_NUMBER_7  &trans  &bootloader  &none  &none   &none  &none  &none
-&none       &none         &none         &none         &none         &none                                  &none        &none  &kp N7  &none  &none  &none
+&to 0  &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4                            &none        &none  &none  &none  &none  &none
+&none  &bt BT_DISC 0  &bt BT_DISC 1  &bt BT_DISC 2  &bt BT_DISC 3  &bt BT_DISC 4                           &none        &none  &none  &none  &none  &none
+&none  &none          &none          &none          &none          &bootloader    &kp KP_NUMBER_7  &trans  &bootloader  &none  &none  &none  &none  &none
+&none  &none          &none          &none          &none          &none                                   &none        &none  &none  &none  &none  &none
             >;
         };
     };
