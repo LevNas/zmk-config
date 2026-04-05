@@ -30,3 +30,9 @@ GitHubにpushすると自動でGitHub Actionsがビルドを実行します。
 - ボード: Cornix LP（分割、nRF52840）
 - ロータリーエンコーダー: 2個（左: 音量、右: Page Up/Down）
 - ドングルなし
+
+## 謝辞
+
+- [hitsmaxft](https://github.com/hitsmaxft) — [Cornix LP](https://github.com/hitsmaxft/zmk-keyboard-cornix) のボード設計とZMKボード定義
+- [urob](https://github.com/urob) — [zmk-helpers](https://github.com/urob/zmk-helpers) と Homerow mods のリファレンス設定
+- [ZMK Contributors](https://zmk.dev/) — ZMK ファームウェア

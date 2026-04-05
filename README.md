@@ -30,3 +30,9 @@ Want to use this as a starting point? See the [Fork Guide](docs/fork-guide.md).
 - Board: Cornix LP (split, nRF52840)
 - Rotary encoders: 2 (left: volume, right: page up/down)
 - No dongle
+
+## Credits
+
+- [hitsmaxft](https://github.com/hitsmaxft) — [Cornix LP](https://github.com/hitsmaxft/zmk-keyboard-cornix) board design and ZMK board definition
+- [urob](https://github.com/urob) — [zmk-helpers](https://github.com/urob/zmk-helpers) and homerow mods reference configuration
+- [ZMK Contributors](https://zmk.dev/) — ZMK firmware
