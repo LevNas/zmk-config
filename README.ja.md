@@ -1,6 +1,6 @@
 # zmk-config
 
-[Cornix LP](https://github.com/hitsmaxft/zmk-keyboard-cornix) 分割キーボード（ロータリーエンコーダー付き）のZMKファームウェア設定です。
+[Cornix LP](https://github.com/hitsmaxft/zmk-keyboard-cornix) 分割キーボード（ロータリーエンコーダー付き）のZMKファームウェア設定です。標準ファームウェア（RMK）との違いは [なぜ ZMK？](docs/why-zmk.ja.md) を参照してください。
 
 [English](README.md)
 
