@@ -76,4 +76,4 @@ CONFIG_ZMK_IDLE_SLEEP_TIMEOUT=900000
 
 ## ビルドに関する注意
 
-このリポジトリはZMKのCIワークフローを特定のコミットにピン留めしています。これはZMKのboard variantチェック（Zephyr 4.1）との[既知の互換性問題](https://github.com/hitsmaxft/zmk-keyboard-cornix/issues/26)を回避するためです。upstreamのCornixボード定義がZMK variant対応したら、ワークフローを `@main` に更新できます。
+このリポジトリはZephyr 4.1対応のため、ZMK board variantを追加した[フォーク版Cornixボード定義](https://github.com/LevNas/zmk-keyboard-cornix/tree/feat/zmk-board-variant)を使用しています。CIワークフローはZMK `@main` を参照しています。このリポジトリをフォークすれば、`config/west.yml` で指定されたフォーク版ボード定義によりそのままビルドできます。

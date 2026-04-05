@@ -76,4 +76,4 @@ CONFIG_ZMK_IDLE_SLEEP_TIMEOUT=900000
 
 ## Build Notes
 
-This repository pins the ZMK CI workflow to a specific commit to avoid a [known compatibility issue](https://github.com/hitsmaxft/zmk-keyboard-cornix/issues/26) with ZMK's board variant check (Zephyr 4.1). Once the upstream Cornix board definition adds ZMK variant support, the workflow can be updated to `@main`.
+This repository uses a [forked Cornix board definition](https://github.com/LevNas/zmk-keyboard-cornix/tree/feat/zmk-board-variant) that adds ZMK board variant support for Zephyr 4.1 compatibility. The CI workflow uses ZMK `@main`. If you fork this repository, the build will work as-is with the forked board definition specified in `config/west.yml`.
