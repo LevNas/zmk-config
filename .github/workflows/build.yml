@@ -3,6 +3,4 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    # Pin to commit before ZMK_BOARD_COMPAT check was added (2026-03-03)
-    # cornix board doesn't yet support zmk board variant
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@8266433d6b85cfecf57a4ba48e27e1eebb3de7b2
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main

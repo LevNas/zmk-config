@@ -3,7 +3,7 @@ manifest:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
     - name: cornix-shield
-      url-base: https://github.com/hitsmaxft
+      url-base: https://github.com/LevNas
     - name: urob
       url-base: https://github.com/urob
   projects:
@@ -13,7 +13,7 @@ manifest:
       import: app/west.yml
     - name: zmk-keyboard-cornix
       remote: cornix-shield
-      revision: main
+      revision: feat/zmk-board-variant
     - name: zmk-helpers
       remote: urob
       revision: main
