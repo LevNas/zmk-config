@@ -1,10 +1,10 @@
-# フォークガイド
+# セットアップガイド
 
-このリポジトリをフォークして、自分のCornix LP用にキーマップをカスタマイズする方法です。
+このテンプレートから自分のCornix LP用キーマップを作成する方法です。
 
 ## クイックスタート
 
-1. GitHubでこのリポジトリを **フォーク**
+1. GitHub で **「Use this template」** → **「Create a new repository」** をクリック
 2. `config/cornix.keymap` を編集してキーマップをカスタマイズ
 3. pushするとGitHub Actionsが自動でファームウェアをビルド
 4. Actionsタブから `.uf2` ファイルをダウンロード
@@ -16,8 +16,8 @@
 最も簡単な方法は [Keymap Editor](https://nickcoutsos.github.io/keymap-editor/) を使うことです。
 
 1. [Keymap Editor](https://nickcoutsos.github.io/keymap-editor/) を開く
-2. フォークしたリポジトリへのアクセスを許可
-3. フォークを選択
+2. 自分のリポジトリへのアクセスを許可
+3. リポジトリを選択
 4. ビジュアルにキーを編集してコミット
 
 レイアウト定義（`config/cornix.json`）が含まれているので、Keymap EditorでCornix LPのレイアウトが自動的に表示されます。
@@ -76,4 +76,4 @@ CONFIG_ZMK_IDLE_SLEEP_TIMEOUT=900000
 
 ## ビルドに関する注意
 
-このリポジトリはZephyr 4.1対応のため、ZMK board variantを追加した[フォーク版Cornixボード定義](https://github.com/LevNas/zmk-keyboard-cornix/tree/feat/zmk-board-variant)を使用しています。CIワークフローはZMK `@main` を参照しています。このリポジトリをフォークすれば、`config/west.yml` で指定されたフォーク版ボード定義によりそのままビルドできます。
+このリポジトリはZephyr 4.1対応のため、ZMK board variantを追加した[フォーク版Cornixボード定義](https://github.com/LevNas/zmk-keyboard-cornix/tree/feat/zmk-board-variant)を使用しています。CIワークフローはZMK `@main` を参照しています。`config/west.yml` で指定されたフォーク版ボード定義によりそのままビルドできます。

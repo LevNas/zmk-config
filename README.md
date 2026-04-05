@@ -23,7 +23,7 @@ Download `.uf2` files from the [latest Actions run](https://github.com/LevNas/zm
 
 ## Customization
 
-Want to use this as a starting point? See the [Fork Guide](docs/fork-guide.md).
+Want to create your own keymap? Click **"Use this template"** on GitHub to get started. See the [Setup Guide](docs/fork-guide.md) for details.
 
 ## Hardware
 

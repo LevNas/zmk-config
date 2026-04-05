@@ -23,7 +23,7 @@ GitHubにpushすると自動でGitHub Actionsがビルドを実行します。
 
 ## カスタマイズ
 
-このリポジトリをベースに自分のキーマップを作りたい場合は [フォークガイド](docs/fork-guide.ja.md) を参照してください。
+自分のキーマップを作りたい場合は、GitHub で **「Use this template」** をクリックしてリポジトリを作成してください。詳しくは [セットアップガイド](docs/fork-guide.ja.md) を参照。
 
 ## ハードウェア
 

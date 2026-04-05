@@ -1,10 +1,10 @@
-# Fork Guide
+# Setup Guide
 
-How to fork this repository and customize the keymap for your own Cornix LP.
+How to create your own Cornix LP keymap from this template.
 
 ## Quick Start
 
-1. **Fork** this repository on GitHub
+1. Click **"Use this template"** → **"Create a new repository"** on GitHub
 2. Edit `config/cornix.keymap` to customize your keymap
 3. Push changes — GitHub Actions will build the firmware automatically
 4. Download `.uf2` files from the Actions tab
@@ -16,8 +16,8 @@ How to fork this repository and customize the keymap for your own Cornix LP.
 The easiest way to edit your keymap is with [Keymap Editor](https://nickcoutsos.github.io/keymap-editor/).
 
 1. Open [Keymap Editor](https://nickcoutsos.github.io/keymap-editor/)
-2. Grant access to your forked repository
-3. Select your fork
+2. Grant access to your repository
+3. Select your repository
 4. Edit keys visually and commit changes
 
 The layout definition (`config/cornix.json`) is included, so Keymap Editor will display the Cornix LP layout automatically.
@@ -76,4 +76,4 @@ CONFIG_ZMK_IDLE_SLEEP_TIMEOUT=900000
 
 ## Build Notes
 
-This repository uses a [forked Cornix board definition](https://github.com/LevNas/zmk-keyboard-cornix/tree/feat/zmk-board-variant) that adds ZMK board variant support for Zephyr 4.1 compatibility. The CI workflow uses ZMK `@main`. If you fork this repository, the build will work as-is with the forked board definition specified in `config/west.yml`.
+This repository uses a [forked Cornix board definition](https://github.com/LevNas/zmk-keyboard-cornix/tree/feat/zmk-board-variant) that adds ZMK board variant support for Zephyr 4.1 compatibility. The CI workflow uses ZMK `@main`. The build will work as-is with the forked board definition specified in `config/west.yml`.
