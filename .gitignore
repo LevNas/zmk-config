@@ -1,0 +1,7 @@
+# West workspace (fetched by west update)
+.west/
+modules/
+zephyr/
+zmk/
+zmk-helpers/
+zmk-keyboard-cornix/

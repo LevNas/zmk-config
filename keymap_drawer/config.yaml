@@ -1,0 +1,17 @@
+# keymap-drawer 描画設定 (現行 docs/keymap.svg の 1u=56px ジオメトリに合わせて再構築)
+# 物理レイアウトは keymap_drawer/cornix_info.json (現 SVG から復元)。
+# 再生成 (parse にも -c を渡し raw_binding_map を効かせる):
+#   keymap -c keymap_drawer/config.yaml parse -z config/cornix.keymap > k.yaml
+#   keymap -c keymap_drawer/config.yaml draw -j keymap_drawer/cornix_info.json -l LAYOUT k.yaml > docs/keymap.svg
+parse_config:
+  # 生バインディング (keymap-drawer が解釈しない behavior) を読みやすい凡例へ変換。
+  # keymap 本体は変えず凡例だけ整える (config/cornix.keymap が唯一の真実源)。
+  raw_binding_map:
+    "&leader": "leader"
+draw_config:
+  key_w: 56
+  key_h: 56
+  inner_pad_w: 2
+  inner_pad_h: 2
+  combo_h: 18
+  combo_w: 24

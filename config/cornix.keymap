@@ -1,0 +1,417 @@
+/*
+ * Copyright (c) 2020 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include "zmk-helpers/helper.h"
+#include "includes/cornix54.h"
+
+// Homerow mods — urob 流 "timeless homerow mods" (2026-06 再導入)
+// 参考: https://github.com/urob/zmk-config/tree/main#timeless-homerow-mods
+// 設計目標: 速い連打中は mod を一切出さず即タップ (require-prior-idle ゲート)、
+//           一拍置いた単独 hold のみ mod 化する。Shift も含め全 mod 一律値。
+// 旧 filterpaper/Townk 流 (prior-idle 0〜105) は速打時に Shift が暴発しテンポを
+// 乱したため撤廃 (2026-05 の HM 撤去理由はこの設定ミスが主因と再診断)。
+
+#define HM_TAPPING_TERM 280           // urob 流: 280ms (prior-idle ゲートがあるため長くても無害)
+#define HM_PRIOR_IDLE 150             // urob 流: 150ms — timeless の肝。直前打鍵から 150ms 以内は即タップ
+#define HM_QUICK_TAP 175              // urob 流: 175ms — 連打/リピート時の即時再タップ
+#define COMBO_TERM 30          // 同指縦コンボ用: 指間ズレが無いので短く (ロール誤爆抑止)
+#define COMBO_TERM_HORIZ 60    // 別指横並び用: 中指先行/相方指の遅れを吸収する緩め timeout
+#define COMBO_TERM_WIDE 75     // index+小指 (J+; 等) 用: 小指の遅れを吸収 (FN 対策)
+#define COMBO_IDLE 175         // combo 既定 require-prior-idle-ms: 打鍵流中は combo を無効化
+#define BASE   0
+#define LOWER  1
+#define RAISE  2
+#define ADJUST 3
+#define NAVI   4
+#define NUM    5
+#define DEBUG  6
+
+// https://github.com/urob/zmk-config/tree/main#timeless-homerow-mods
+
+#define KEYS_L LT0 LT1 LT2 LT3 LT4 LT5 LM0 LM1 LM2 LM3 LM4 LM5 LB0 LB1 LB2 LB3 LB4 LB5  // left hand
+#define KEYS_R RT0 RT1 RT2 RT3 RT4 RT5 RM0 RM1 RM2 RM3 RM4 RM5 RB0 RB1 RB2 RB3 RB4 RB5  // right hand
+#define THUMBS LH1 LH0 RH0 RH1
+#define KEYS_T LH1 LH0 RH0 RH1
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 15
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/ext_power.h>
+#include <dt-bindings/zmk/keys.h>
+
+/ {
+    // Activate ADJUST layer by pressing raise and lower
+
+    behaviors {
+        hm_l: homerow_mods_left {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            bindings = <&kp>, <&kp>;
+
+            flavor = "balanced";
+            tapping-term-ms = <HM_TAPPING_TERM>;
+            quick-tap-ms = <HM_QUICK_TAP>;
+            require-prior-idle-ms = <HM_PRIOR_IDLE>;
+            hold-trigger-key-positions = <KEYS_R KEYS_T>;
+            hold-trigger-on-release;
+        };
+
+        hm_r: homerow_mods_right {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            bindings = <&kp>, <&kp>;
+
+            flavor = "balanced";
+            tapping-term-ms = <HM_TAPPING_TERM>;
+            quick-tap-ms = <HM_QUICK_TAP>;
+            require-prior-idle-ms = <HM_PRIOR_IDLE>;
+            hold-trigger-key-positions = <KEYS_L KEYS_T>;
+            hold-trigger-on-release;
+        };
+
+        // hm_shift_l / hm_shift_r (Townk 流 prior-idle=0) は 2026-06 に撤去。
+        // 速打時の Shift 暴発源だったため、Shift も hm_l/hm_r の一律 timeless 値へ統一。
+
+        /*
+         * Non-Positional Homerow Mods
+         * Used for &mm_grescm_gui behavior on left hand.
+         *
+         * Usage: &hm LSHFT T
+         * Tap: T
+         * Tap-Tap-Hold: Repeat T
+         * Hold: LSHIFT
+         */
+
+        hm: homerow_mods {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            bindings = <&kp>, <&kp>;
+
+            flavor = "balanced";
+            tapping-term-ms = <HM_TAPPING_TERM>;
+            quick-tap-ms = <200>;
+        };
+
+        bs_del: bs_del {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp BSPC>, <&kp DEL>;
+
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        lt: layer_tap {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            bindings = <&mo>, <&kp>;
+
+            flavor = "hold-preferred";
+            tapping-term-ms = <HM_TAPPING_TERM>;
+            quick-tap-ms = <200>;
+        };
+
+        // lt_g: tap-preferred layer-tap (used for G → Navi)
+        // 値は main ブランチ準拠 (filterpaper 流の HM 定数を継承せず固定)
+        // ユーザの打鍵感覚で main の挙動が最も自然と確認済み (2026-05-29)
+
+        lt_g: layer_tap_g {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            bindings = <&mo>, <&kp>;
+
+            flavor = "tap-preferred";
+            tapping-term-ms = <250>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <70>;
+        };
+
+        // urob zmk-leader-key モジュール (2026-06 導入)
+        // 開始キー (combo E+I) → 後続の並びで IDE ジェスチャ等を発火する namespace。
+        // このモジュール版は timeout/layers/immediate-trigger を持たない:
+        //   有効な並びが揃うまで待機し、無効キーで中断する (せかされない代わりに宙ぶらりんに注意)。
+        // 並びはキーコード列 (README の <U S B>=“usb” と同形式)。bindings には任意 behavior/マクロ可。
+        leader: leader {
+            compatible = "zmk,behavior-leader-key";
+            #binding-cells = <0>;
+
+            ldr_cc { sequence = <C C>; bindings = <&ctrl_ctrl>; };    // leader→c c : Ctrl 二連打
+            ldr_ss { sequence = <S S>; bindings = <&shift_shift>; };  // leader→s s : Shift 二連打
+            // 追加例: ldr_run { sequence = <R>; bindings = <&kp F10 等>; };
+            //   Run/Debug は IDE のショートカット (例 IntelliJ: Shift+F10/F9) を教われば足せる。
+        };
+
+        // === combo 用 mod-morph (shift / alt 連動) ===
+        cm_quote: cm_quote {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp SQT>, <&kp DQT>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+        cm_lpar: cm_lpar {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp LPAR>, <&kp LT>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+        cm_rpar: cm_rpar {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp RPAR>, <&kp GT>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+        cm_lbkt: cm_lbkt {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp LBKT>, <&kp LBRC>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+        cm_rbkt: cm_rbkt {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp RBKT>, <&kp RBRC>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+        // df combo: 通常は leader、Alt 保持中は Tab (keep-mods で Alt を残し Alt+Tab に)
+        df_lead: df_lead {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&leader>, <&kp TAB>;
+            mods = <(MOD_LALT|MOD_RALT)>;
+            keep-mods = <(MOD_LALT|MOD_RALT)>;
+        };
+    };
+
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+
+        adjust_layer {
+            if-layers = <2 1>;
+            then-layer = <3>;
+        };
+    };
+
+    combos {
+        compatible = "zmk,combos";
+
+        // 全 combo 共通: timeout-ms=COMBO_TERM(30) でロール誤爆抑止 / require-prior-idle-ms=COMBO_IDLE(175)。
+        // 不発が出たら個別に timeout-ms を上げる。とくに「同指縦コンボ」(ws/ed/rf/tg/yh/uj/ik/ol,
+        // sx/dc/fv/gb/hn/jm/k,/l.) は構造上ロール誤爆に強いが timeout=30 で不発になりやすい筆頭。
+
+        // --- 編集 / ナビ ---
+        cb_kp_esc    { key-positions = <1 2>;   bindings = <&kp ESC>;   layers = <0>; timeout-ms = <COMBO_TERM>;      require-prior-idle-ms = <COMBO_IDLE>; };  // W+E
+        cb_kp_tab    { key-positions = <13 14>; bindings = <&kp TAB>;   layers = <0>; timeout-ms = <COMBO_TERM>;      require-prior-idle-ms = <COMBO_IDLE>; };  // S+D
+        cb_kp_del    { key-positions = <8 9>;   bindings = <&kp DEL>;   layers = <0>; timeout-ms = <COMBO_TERM_HORIZ>; require-prior-idle-ms = <COMBO_IDLE>; };  // U+I  (横並び: 緩め)
+        cb_kp_bs     { key-positions = <9 10>;  bindings = <&bs_del>;   layers = <0>; timeout-ms = <COMBO_TERM_HORIZ>; require-prior-idle-ms = <COMBO_IDLE>; };  // I+O  (Shift=DEL, 横並び: 緩め)
+        cb_kp_insert { key-positions = <10 20>; bindings = <&kp INS>;   layers = <0>; timeout-ms = <COMBO_TERM_HORIZ>; require-prior-idle-ms = <COMBO_IDLE>; };  // O+J  (横並び: 緩め)
+        cb_kp_enter  { key-positions = <20 23>; bindings = <&kp ENTER>; layers = <0>; timeout-ms = <COMBO_TERM_WIDE>; require-prior-idle-ms = <COMBO_IDLE>; };  // J+; (widechord)
+        cb_leader    { key-positions = <14 15>; bindings = <&df_lead>;  layers = <0>; timeout-ms = <COMBO_TERM>;      require-prior-idle-ms = <COMBO_IDLE>; };  // D+F = leader / Alt+Tab
+
+        // --- 記号 (単純 &kp) ---
+        cb_at        { key-positions = <1 13>;  bindings = <&kp AT>;        layers = <0>; timeout-ms = <COMBO_TERM>; require-prior-idle-ms = <COMBO_IDLE>; };  // W+S
+        cb_hash      { key-positions = <2 14>;  bindings = <&kp HASH>;      layers = <0>; timeout-ms = <COMBO_TERM>; require-prior-idle-ms = <COMBO_IDLE>; };  // E+D
+        cb_dollar    { key-positions = <3 15>;  bindings = <&kp DOLLAR>;    layers = <0>; timeout-ms = <COMBO_TERM>; require-prior-idle-ms = <COMBO_IDLE>; };  // R+F
+        cb_percent   { key-positions = <4 16>;  bindings = <&kp PERCENT>;   layers = <0>; timeout-ms = <COMBO_TERM>; require-prior-idle-ms = <COMBO_IDLE>; };  // T+G
+        cb_caret     { key-positions = <7 19>;  bindings = <&kp CARET>;     layers = <0>; timeout-ms = <COMBO_TERM>; require-prior-idle-ms = <COMBO_IDLE>; };  // Y+H
+        cb_plus      { key-positions = <8 20>;  bindings = <&kp PLUS>;      layers = <0>; timeout-ms = <COMBO_TERM>; require-prior-idle-ms = <COMBO_IDLE>; };  // U+J
+        cb_asterisk  { key-positions = <9 21>;  bindings = <&kp ASTERISK>;  layers = <0>; timeout-ms = <COMBO_TERM>; require-prior-idle-ms = <COMBO_IDLE>; };  // I+K
+        cb_amp       { key-positions = <10 22>; bindings = <&kp AMPERSAND>; layers = <0>; timeout-ms = <COMBO_TERM>; require-prior-idle-ms = <COMBO_IDLE>; };  // O+L
+        cb_grave     { key-positions = <13 25>; bindings = <&kp GRAVE>;     layers = <0>; timeout-ms = <COMBO_TERM>; require-prior-idle-ms = <COMBO_IDLE>; };  // S+X
+        cb_bslh      { key-positions = <14 26>; bindings = <&kp BSLH>;      layers = <0>; timeout-ms = <COMBO_TERM>; require-prior-idle-ms = <COMBO_IDLE>; };  // D+C
+        cb_equal     { key-positions = <15 27>; bindings = <&kp EQUAL>;     layers = <0>; timeout-ms = <COMBO_TERM>; require-prior-idle-ms = <COMBO_IDLE>; };  // F+V
+        cb_tilde     { key-positions = <16 28>; bindings = <&kp TILDE>;     layers = <0>; timeout-ms = <COMBO_TERM>; require-prior-idle-ms = <COMBO_IDLE>; };  // G+B (旧 Space を置換)
+        cb_under     { key-positions = <19 33>; bindings = <&kp UNDER>;     layers = <0>; timeout-ms = <COMBO_TERM>; require-prior-idle-ms = <COMBO_IDLE>; };  // H+N
+        cb_minus     { key-positions = <20 34>; bindings = <&kp MINUS>;     layers = <0>; timeout-ms = <COMBO_TERM>; require-prior-idle-ms = <COMBO_IDLE>; };  // J+M
+        cb_fslh      { key-positions = <21 35>; bindings = <&kp FSLH>;      layers = <0>; timeout-ms = <COMBO_TERM>; require-prior-idle-ms = <COMBO_IDLE>; };  // K+,
+        cb_pipe      { key-positions = <22 36>; bindings = <&kp PIPE>;      layers = <0>; timeout-ms = <COMBO_TERM>; require-prior-idle-ms = <COMBO_IDLE>; };  // L+.
+
+        // --- 括弧 / 引用符 (shift 連動 mod-morph) ---
+        cb_quote     { key-positions = <20 22>; bindings = <&cm_quote>; layers = <0>; timeout-ms = <COMBO_TERM_HORIZ>; require-prior-idle-ms = <COMBO_IDLE>; };  // J+L: ' / "  (横並び: 緩め)
+        cb_lpar      { key-positions = <20 21>; bindings = <&cm_lpar>;  layers = <0>; timeout-ms = <COMBO_TERM_HORIZ>; require-prior-idle-ms = <COMBO_IDLE>; };  // J+K: ( / <  (横並び: 緩め)
+        cb_rpar      { key-positions = <21 22>; bindings = <&cm_rpar>;  layers = <0>; timeout-ms = <COMBO_TERM_HORIZ>; require-prior-idle-ms = <COMBO_IDLE>; };  // K+L: ) / >  (横並び: 緩め)
+        cb_lbkt      { key-positions = <34 35>; bindings = <&cm_lbkt>;  layers = <0>; timeout-ms = <COMBO_TERM_HORIZ>; require-prior-idle-ms = <COMBO_IDLE>; };  // M+,: [ / {  (横並び: 緩め)
+        cb_rbkt      { key-positions = <35 36>; bindings = <&cm_rbkt>;  layers = <0>; timeout-ms = <COMBO_TERM_HORIZ>; require-prior-idle-ms = <COMBO_IDLE>; };  // ,+.: ] / }  (横並び: 緩め)
+
+        // --- Ins/Del 派生 ---
+        cb_ctrl_ins  { key-positions = <25 26>; bindings = <&kp LC(INS)>; layers = <0>; timeout-ms = <COMBO_TERM>; require-prior-idle-ms = <COMBO_IDLE>; };  // X+C
+        cb_shift_ins { key-positions = <26 27>; bindings = <&kp LS(INS)>; layers = <0>; timeout-ms = <COMBO_TERM>; require-prior-idle-ms = <COMBO_IDLE>; };  // C+V
+        cb_shift_del { key-positions = <25 27>; bindings = <&kp LS(DEL)>; layers = <0>; timeout-ms = <COMBO_TERM>; require-prior-idle-ms = <COMBO_IDLE>; };  // X+V
+    };
+
+    macros {
+        // my_macro_zenhan (Alt+`) を撤去 (2026-06: zenhan combo 撤去で参照ゼロの dead code 化)。
+        //   全/半 切替を再度キーに割り当てたくなったら、この Alt+` tap マクロを復活させる。
+
+        // IDE ジェスチャ: 同一修飾の二連打 (host に double-tap として検出させる)
+        // wait/tap を短めにして二打を「連続」と認識させる。IDE が拾わなければ値を調整。
+        ctrl_ctrl: ctrl_ctrl {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&kp LCTRL>, <&kp LCTRL>;
+            label = "CTRL_CTRL";
+        };
+
+        shift_shift: shift_shift {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&kp LSHFT>, <&kp LSHFT>;
+            label = "SHIFT_SHIFT";
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
+            display-name = "Base";
+
+            // ------------------------------------------------------------------------------------------------------------
+            // 36-key 有効レイアウト (Vim フレンドリー) — ホームポジション外側シフト版 (2026-06)
+            // 内周列 (5/17/29 左・6/18/32 右) と外側親指 (38-40/47-49) を意図的に &none。文字を外側5列へ寄せた
+            // 2026-06: urob 流 timeless homerow mods を再導入 (HM 全撤廃→combo 主義から回帰)。
+            //   home 行 mod (urob 純正配列, 小指→人差し指):
+            //     左 A=GUI S=ALT D=SHIFT F=CTRL / 右 J=CTRL K=SHIFT L=ALT ;=GUI
+            //   G は lt_g 4 (Navi)、H は素のまま。修飾系 combo は全撤去し HRM に一本化。
+            //   ' は K+; combo で発射、内周は &none。
+            //
+            // |  Q  |  W  |  E   |  R   |  T   |  -  |                   |  -  |  Y   |  U   |  I   |  O   |  ;  |
+            // |  A⌘ |  S⌥ |  D⇧  |  F⌃  |  G   |  -  |                   |  -  |  H   |  J⌃  |  K⇧  |  L⌥  | ;⌘  |
+            // |  Z  |  X  |  C   |  V   |  B   |  -  |  MUTE  |  |       |  -  |  N   |  M   |  ,   |  .   |  /  |
+            //               |  -  |  -  | ESC/L5| L1  | SPACE/L4 |  | ENTER | L2 | BSPC/L1 |  -  |  -  |
+
+            bindings = <
+&kp Q       &kp W       &kp E        &kp R         &kp T      &none                                &none      &kp Y  &kp U             &kp I        &kp O       &kp P
+&hm_l LGUI A  &hm_l LALT S  &hm_l LSHFT D  &hm_l LCTRL F  &lt_g 4 G  &none                          &none      &kp H  &hm_r LCTRL J  &hm_r LSHFT K  &hm_r LALT L  &hm_r LGUI SEMICOLON
+&kp Z       &kp X       &kp C        &kp V         &kp B      &none        &kp KP_NUMBER_0  &none  &none      &kp N  &kp M             &kp COMMA    &kp DOT     &kp FSLH
+&none       &none       &none        &mo 5         &mo 1      &lt 4 SPACE                          &kp ENTER  &mo 2  &lt 1 BACKSPACE   &none        &none       &none
+            >;
+
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+        };
+
+        Symbol_layer {
+            display-name = "Symbols";
+
+            // TODO: Some binds are waiting for shifted keycode support.
+            // -------------------------------
+            // |       |  F1 |  F2 |  F3  |  F4  |  F5  |                   |  F6  |  F7   |  F8   |  F9  |  F10  |  F11  |
+            // |   `   |  1  |  2  |  3   |  4   |  5   |                   |  6   |  7    |  8    |  9   |   0   |  F12  |
+            // |       |  !  |  @  |  #   |  $   |  %   |                   |  ^   |  &    |  *    |  (   |   )   |   |   |
+            // |       |  =  |  -  |  +   |  {   |  }   |        |  |       |  [   |  ]    |  ;    |  :   |   \   |       |
+            //               |     |      |      |      |        |  |       |      |       |       |      |
+            // 上段: 括弧類を集約 (2026-05-29、旧 vertical combo の代替)
+            //   左 5 キー (Q W E R T) + Y に < > [ ] { } を配置
+            //   右半身は - = \ ` の既存配置を維持
+            // ホーム行: Shift+数字の記号 (! @ # $ % ^ & * ( )) — 変更なし
+            //   ( ) はホーム行末尾 (L, ;) に既配置
+            // 下段: 旧 LEFT_SHIFT / RIGHT_SHIFT は combo Shift で代替可能となったため除去
+
+            bindings = <
+&kp LT           &kp GT       &kp LBKT  &kp RBKT    &kp LBRC     &to 0                                    &kp GRAVE        &kp RBRC   &none          &kp MINUS     &kp EQUAL             &kp BACKSLASH
+&kp EXCLAMATION  &kp AT_SIGN  &kp HASH  &kp DOLLAR  &kp PERCENT  &none                                    &none            &kp CARET  &kp AMPERSAND  &kp ASTERISK  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS
+&none            &none        &none     &none       &none        &none           &kp KP_NUMBER_2  &trans  &none            &none      &none          &none         &none                 &none
+&none            &none        &none     &none       &trans       &kp LEFT_SHIFT                           &kp RIGHT_SHIFT  &trans     &kp GRAVE      &none         &none                 &none
+            >;
+
+            // Symbols: 左=カーソル左右 / 右=カーソル上下 (記号入力中のカーソル微調整用)
+
+            sensor-bindings = <&inc_dec_kp RIGHT LEFT &inc_dec_kp DOWN UP>;
+        };
+
+        Mix_layer {
+            display-name = "Mix";
+
+            // ------------------------------------------------------------------------------------------------------------
+            // | BTCLR | BT1  | BT2  |  BT3  |  BT4  |  BT5 |                |      |      |       |      |       |       |
+            // |       | INS  | PSCR | GUI   |       |      |                | PGUP |      |   ^   |      |       |       |
+            // |       | ALT  | CTRL | SHIFT |       | CAPS |                | PGDN |   <- |   v   |  ->  |  DEL  | BKSPC |
+            // |       | UNDO | CUT  | COPY  | PASTE |      |      |  |      |      |      |       |      |       |       |
+            //                |      |       |       |      |      |  |      |      |      |       |      |
+
+            bindings = <
+&kp F1  &kp F2  &kp F3  &kp F4   &kp F5  &to 0                                   &kp F11  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10
+&kp N1  &kp N2  &kp N3  &kp N4   &kp N5  &trans                                  &kp F12  &kp N6  &kp N7  &kp N8  &kp N9  &kp N0
+&none   &none   &none   &none    &none   &trans         &kp KP_NUMBER_3  &trans  &trans   &none   &none   &none   &none   &trans
+&none   &none   &none   &kp TAB  &trans  &kp BACKSPACE                           &trans   &trans  &kp N3  &none   &none   &none
+            >;
+
+            // Mix: 左=ブラウザタブ切替 (Ctrl+Tab) / 右=音量 (メディアコントロール用)
+            // ※ Alt+Tab は修飾キー維持が必要なため encoder では難しく見送り
+
+            sensor-bindings = <&inc_dec_kp LC(TAB) LC(LS(TAB)) &inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+
+        Adjust_layer {
+            display-name = "Adjust";
+
+            // ----------------------------------------------------------------------------------------------------------------------------
+            // | BTCLR  |  BT1    |  BT2    |   BT3   |   BT4   |   BT5   |                  |      |      |       |      |       |       |
+            // | moDEBUG| RGB_HUD | RGB_HUI | RGB_SAD | RGB_SAI | RGB_EFF |                  |      |      |       |      |       |       |
+            // | EXTPWR | RGB_BRD | RGB_BRI |         |         |         |                  |      |      |       |      |       |       |
+            // |        |         |         |         |         |         | RGB_TOG | |      |      |      |       |      |       |       |
+            //                    |         |         |         |         |         | |      |      |      |       |      |
+
+            bindings = <
+&bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4   &to 0                                    &bt BT_CLR        &none              &none              &none  &none  &none
+&bt BT_DISC 0  &bt BT_DISC 1  &bt BT_DISC 2  &bt BT_DISC 3  &bt BT_DISC 4  &none                                    &bt BT_CLR_ALL    &tog 0             &to 0              &none  &none  &none
+&none          &none          &none          &none          &none          &bt BT_CLR_ALL  &kp KP_NUMBER_4  &trans  &none             &none              &none              &none  &none  &none
+&none          &none          &none          &none          &none          &none                                    &ext_power EP_ON  &ext_power EP_TOG  &ext_power EP_OFF  &none  &none  &none
+            >;
+        };
+
+        Navi_layer {
+            display-name = "Navi";
+            bindings = <
+&none           &none  &none  &none  &none   &to 0                                 &kp DELETE  &kp HOME  &kp PAGE_DOWN  &kp PG_UP  &kp END    &none
+&kp LEFT_SHIFT  &none  &none  &none  &none   &none                                 &none       &kp LEFT  &kp DOWN       &kp UP     &kp RIGHT  &none
+&none           &none  &none  &none  &none   &none        &kp KP_NUMBER_5  &trans  &none       &trans    &trans         &none      &none      &none
+&none           &none  &none  &mo 6  &trans  &kp LA(TAB)                           &none       &none     &kp N5         &none      &none      &none
+            >;
+
+            // Navi: 左=行頭/行末 / 右=ページ上下 (大移動用)
+
+            sensor-bindings = <&inc_dec_kp END HOME &inc_dec_kp PG_DN PG_UP>;
+        };
+
+        KeyPad_layer {
+            display-name = "NumPad";
+            bindings = <
+&none  &none  &none  &none  &none  &to 0                           &none         &kp NUMBER_7  &kp NUMBER_8     &kp NUMBER_9  &kp KP_MINUS  &kp KP_MULTIPLY
+&none  &none  &none  &none  &none  &none                           &none         &kp NUMBER_4  &kp NUMBER_5     &kp NUMBER_6  &kp KP_PLUS   &kp KP_DIVIDE
+&none  &none  &none  &none  &none  &none  &kp KP_NUMBER_6  &trans  &none         &kp NUMBER_1  &kp NUMBER_2     &kp NUMBER_3  &none         &none
+&none  &none  &none  &none  &none  &mo 6                           &kp NUMBER_0  &kp PERIOD    &kp KP_NUMBER_0  &none         &none         &none
+            >;
+
+            // NumPad: 左=+/- / 右=×/÷ (電卓的入力)
+
+            sensor-bindings = <&inc_dec_kp KP_PLUS KP_MINUS &inc_dec_kp KP_MULTIPLY KP_DIVIDE>;
+        };
+
+        // Combo_layer 削除 (2026-05): 右手 HM 導入により sticky modifier combo が不要となり dead code 化
+        // 旧 cb_kp_r-ctrl/shift/alt と入口だった lt_g 6 D も同時撤去済み
+
+        Debug_layer {
+            display-name = "Debug";
+
+            // ----------------------------------------------------------------------------------------------------------------------------
+            // | BTCLR  |  BT1    |  BT2    |   BT3   |   BT4   |   BT5   |                  |      |      |       |      |       |       |
+            // | EXTPWR | BTCLR | RGB_HUI | RGB_SAD | RGB_SAI | RGB_EFF |                  |      |      |       |      |       |       |
+            // |        | RGB_BRD | RGB_BRI |         |         |         |                  |      |      |       |      |       |       |
+            // |        |         |         |         |         |         | RGB_TOG | |      |      |      |       |      |       |       |
+            //                    |         |         |         |         |         | |      |      |      |       |      |
+
+            bindings = <
+&bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4   &to 0                           &none  &none        &none  &none  &none  &none
+&bt BT_DISC 0  &bt BT_DISC 1  &bt BT_DISC 2  &bt BT_DISC 3  &bt BT_DISC 4  &none                           &none  &none        &none  &none  &none  &none
+&none          &none          &none          &none          &bootloader    &none  &kp KP_NUMBER_7  &trans  &none  &bootloader  &none  &none  &none  &none
+&none          &none          &none          &none          &none          &none                           &none  &none        &none  &none  &none  &none
+            >;
+        };
+    };
+};

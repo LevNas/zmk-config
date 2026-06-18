@@ -1,0 +1,26 @@
+manifest:
+  remotes:
+    - name: zmkfirmware
+      url-base: https://github.com/zmkfirmware
+    - name: cornix-shield
+      url-base: https://github.com/LevNas
+    - name: urob
+      url-base: https://github.com/urob
+  projects:
+    - name: zmk
+      remote: zmkfirmware
+      revision: main
+      import: app/west.yml
+    - name: zmk-keyboard-cornix
+      remote: cornix-shield
+      revision: feat/zmk-board-variant
+    - name: zmk-helpers
+      remote: urob
+      revision: main
+    # urob leader-key モジュール (ZMK main 未収録機能をモジュール提供)
+    # urob 推奨: revision は ZMK 本体 (上の zmk project) と揃える
+    - name: zmk-leader-key
+      remote: urob
+      revision: main
+  self:
+    path: config
